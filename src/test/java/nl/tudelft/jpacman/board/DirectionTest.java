@@ -32,7 +32,7 @@ public class DirectionTest {
 	
 	@Test
 	public void DirectionTestWest() {
-		assertEquals(1, Direction.WEST.getDeltaY());
+		assertEquals(0, Direction.WEST.getDeltaY());
 	}
 
 }
