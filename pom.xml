@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>nl.tudelft.jpacman</groupId>
-	<artifactId>jpacman-template</artifactId>
+	<artifactId>stqe-lab-group-25</artifactId>
 	<version>6.0.0</version>
 	
 	<prerequisites>
