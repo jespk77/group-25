@@ -13,25 +13,16 @@ import org.junit.Test;
  *
  */
 public class BoardTest {
-	private Square[][] grid;
-	
-	@Before
-	public void setupBoard() {
-		grid = new Square[1][1];
-	}
+	private Square[][] gridNull, gridInit;
 	
 	/**
-	 * Is the Board correct?
+	 * Sets up the grids we use for initializing the boards.
 	 */
-	//@Test
-	//public void BoardNull() {
-	//	Board board = new Board(grid);
-	//	assertEquals(grid[0][0], board.squareAt(0, 0));
-	//}
-	
-	@Test
-	public void BoardInitTest() {
-		grid[0][0] = new Square() {
+	@Before
+	public void setupGrid() {
+		gridNull = new Square[1][1];
+		gridInit = new Square[1][1];
+		gridInit[0][0] = new Square() {
 			
 			@Override
 			public boolean isAccessibleTo(Unit unit) {
@@ -45,7 +36,23 @@ public class BoardTest {
 				return null;
 			}
 		};
-		Board board = new Board(grid);
-		assertEquals(grid[0][0], board.squareAt(0, 0));
+	}
+	
+	/**
+	 * Creating a board from an array of Null squares should fail.
+	 */
+	@Test (expected = AssertionError.class)
+	public void boardNull() {
+		Board board = new Board(gridNull);
+		assertEquals(gridNull[0][0], board.squareAt(0, 0));
+	}
+	
+	/**
+	 * Creating a board from an array of initialized squares should succeed.
+	 */
+	@Test
+	public void boardInitTest() { 
+		Board board = new Board(gridInit);
+		assertEquals(gridInit[0][0], board.squareAt(0, 0));
 	}
 }
