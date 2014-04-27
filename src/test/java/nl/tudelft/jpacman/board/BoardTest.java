@@ -24,12 +24,6 @@ public class BoardTest {
 	 * Is the Board correct?
 	 */
 	@Test
-	public void BoardNullTest() {
-		Board board = new Board(grid);
-		assertEquals(grid[0][0], board.squareAt(0, 0));
-	}
-	
-	@Test
 	public void BoardInitTest() {
 		grid[0][0] = new Square() {
 			
