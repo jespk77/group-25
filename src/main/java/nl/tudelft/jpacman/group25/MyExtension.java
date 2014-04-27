@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.groupNUMBER;
+package nl.tudelft.jpacman.group25;
 
 import nl.tudelft.jpacman.Launcher;
 
