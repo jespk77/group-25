@@ -3,8 +3,12 @@ package nl.tudelft.jpacman;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 
 import org.junit.After;
@@ -121,11 +125,19 @@ public class LauncherSmokeTest {
     @Test
     public void consume() throws InterruptedException {
         Game game = launcher.getGame();
+        Player player = game.getPlayers().get(0);
 
         // start cleanly.
-        assertFalse(game.isInProgress());
         game.start();
-        assertTrue(game.isInProgress());
+        
+        Square myLocation = player.getSquare();
+        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
+        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
+        
+        game.move(player, Direction.EAST);
+        assertEquals(nextLocation, player.getSquare());
+		assertEquals(10, player.getScore());
+		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
     }
 
     /**
