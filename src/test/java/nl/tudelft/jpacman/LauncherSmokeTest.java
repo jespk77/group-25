@@ -93,7 +93,7 @@ public class LauncherSmokeTest {
 		game.stop();
 		assertFalse(game.isInProgress());
 	}
-	
+
 	/**
 	 * Scenario S1.1: Start.
 	 * Given the user has launched the JPacman GUI;
@@ -120,95 +120,79 @@ public class LauncherSmokeTest {
 	 *  and  the pellet disappears from that square.
 	 * @throws InterruptedException
 	 */
-    @Test
-    public void consume() throws InterruptedException {
-        Game game = launcher.getGame();
-        Player player = game.getPlayers().get(0);
-        Square myLocation = player.getSquare();
-        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
-        
-        // Before starting, make sure that the square to the East contains a Pellet
-        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
+	@Test
+	public void consume() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		Square myLocation = player.getSquare();
+		Square nextLocation = myLocation.getSquareAt(Direction.EAST);
 
-        // start cleanly.
-        game.start();
-        
-        // Move 1 square to the East
-        game.move(player, Direction.EAST);
-        assertEquals(nextLocation, player.getSquare());
+		// Before starting, make sure that the square to the East contains a Pellet
+		assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
+
+		// start cleanly.
+		game.start();
+
+		// Move 1 square to the East
+		game.move(player, Direction.EAST);
+		assertEquals(nextLocation, player.getSquare());
 		assertEquals(10, player.getScore());
 		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
-		
+
 		Thread.sleep(500L);
-    }
-	
-    /**
-     * Scenario S4.1: Suspend the game.
+	}
+
+	/**
+	 * Scenario S4.1: Suspend the game.
 	 * Given the game has started;
 	 * When  the player clicks the "Stop" button;
 	 * Then  all moves from ghosts and the player are suspended.
-     */
-    @Test
-    public void suspend() {
-    	Game game = launcher.getGame();        
-        game.start();
+	 */
+	@Test
+	public void suspend() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		
+		player.setDirection(Direction.WEST);
+		Thread.sleep(1000);
+
+		// stop the game
+		game.stop();
+		assertEquals(false, game.isInProgress());
         
-        //stop the game
-        game.stop();
-        assertEquals(false,game.isInProgress());
-    }
-    
-    /**
-     * Scenario S4.2: Restart the game.
-     * Given the game is suspended;
-     * When  the player hits the "Start" button;
-     * Then  the game is resumed.
-     */
-    @Test
-    public void restart() {
-    	Game game = launcher.getGame();        
-        game.start();
-        
-        //stop the game
-        game.stop();
-        game.start();
-        assertEquals(true,game.isInProgress());
-    }
-    
-    @Test
-    public void story4_1_direction() throws InterruptedException {
-    	Game game = launcher.getGame();        
-        Player player = game.getPlayers().get(0);
-        game.start();
-        player.setDirection(Direction.WEST);
-        Thread.sleep(1000);
-        //stop the game
-        game.stop();
-        assertEquals(false,game.isInProgress());
-        
-        //change the direction of the player
+        // change the direction of the player
         player.setDirection(Direction.EAST);
         assertEquals(Direction.EAST, player.getDirection());
-    }
-    
-    @Test
-    public void story4_1_square() {
-    	//Make the game
-    	Game game = launcher.getGame();        
-        Player player = game.getPlayers().get(0);
-        game.start();
-        //Stop the game, check if it is pauzed
-        game.stop();
-        assertEquals(false,game.isInProgress());
         
-        //Move the player to another square
-        //Check if he is still at the same square
-        Square temp = player.getSquare();
-        game.move(player, Direction.EAST);
-        assertEquals(temp, player.getSquare());
+		// move the player to another square
+		// check if he is still at the same square
+        Square myLocation = player.getSquare();
+		game.move(player, Direction.EAST);
+		assertEquals(myLocation, player.getSquare());
     }
 
-    /**
+	/**
+	 * Scenario S4.2: Restart the game.
+	 * Given the game is suspended;
+	 * When  the player hits the "Start" button;
+	 * Then  the game is resumed.
+	 */
+	@Test
+	public void restart() {
+		Game game = launcher.getGame();        
+		game.start();
+
+		// stop the game
+		game.stop();
+		assertTrue(game.isInProgress());
+		
+		// and start the game again
+		game.start();
+		assertTrue(game.isInProgress());
+	}
+
+	/**
 	 * Make number of moves in given direction.
 	 *
 	 * @param game The game we're playing
