@@ -3,11 +3,16 @@ package nl.tudelft.jpacman;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import org.junit.After;
 import org.junit.Before;
@@ -178,6 +183,63 @@ public class LauncherSmokeTest {
 
 		Thread.sleep(100L);
 	}
+	
+	/**
+	 * Scenario S2.3: The player dies
+	 * Given the game has started,
+	 *  and  my Pacman is next to a cell containing a ghost;
+	 * When  I press an arrow key towards that square;
+	 * Then  my Pacman dies,
+	 *  and  the game is over.
+	 */
+	@Test
+	public void playerDies() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		Square myLocation = player.getSquare();
+
+		// Start the game
+		game.start();
+		assertTrue(player.isAlive());
+
+		// Wait until there is a ghost next to us
+		Direction monsterDirection = null;
+		while (monsterDirection == null) {
+			for (Direction dir: Direction.values()) {
+				List<Unit> occupants = myLocation.getSquareAt(dir).getOccupants();
+				for (Unit unit: occupants) {
+					if (unit instanceof Ghost) {
+						monsterDirection = dir;
+					}
+				}
+			}
+			Thread.sleep(50L);
+		}
+
+		// Now move towards the ghost
+		game.move(player, monsterDirection);
+		
+		// Check that we have died
+		assertFalse(player.isAlive());
+		// Check that the game is no longer in progress
+		assertFalse(game.isInProgress());
+		
+		Thread.sleep(1000L);
+	}
+	
+	/**
+	 * Scenario S2.4: The move fails
+	 * Given the game has started,
+	 *  and my Pacman is next to a cell containing a wall;
+	 * When  I press an arrow key towards that cell;
+	 * Then  the move is not conducted.
+	 */
+	
+	/**
+	 * Scenario S2.5: Player wins, extends S2.2
+	 * When  I have eaten the last pellet;
+	 * Then  I win the game.
+	 */ 
 
 	/**
 	 * Scenario S4.1: Suspend the game.
