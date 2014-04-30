@@ -103,7 +103,7 @@ public class LauncherSmokeTest {
 	 * Then  the game should start.
 	 */
 	@Test
-	public void start() throws InterruptedException {
+	public void start() {
 		Game game = launcher.getGame();
 
 		// start cleanly.
@@ -123,7 +123,7 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException
 	 */
     @Test
-    public void consume() throws InterruptedException {
+    public void consume() {
         Game game = launcher.getGame();
         Player player = game.getPlayers().get(0);
 
