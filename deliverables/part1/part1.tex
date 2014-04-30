@@ -1,0 +1,38 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+\title{TI1705 - Part I}
+\author{Gerlof Fokkema - 4257286\\
+		Joris Lamers - \textless studentnr\textgreater}
+\date{\today}
+\setcounter{section}{2}
+\newtheorem{thm}{Exercise}
+
+
+\begin{document}
+  \maketitle
+  \section{Part I}
+    Your introduction goes here!
+      
+  \subsection{End-to-End Testing}
+    \thm Execute the smoke test, with coverage enabled. What overall (line) coverage percentage do you get? Name 2 classes that are not well-tested, and explain why the smoke test does not cover it.
+
+    \thm Study the acceptance scenarios for User Stories 1, 2, and 4. Turn each of them into a test case, as far as possible. To do so, use the approach adopted in LauncherSmokeTest to start the game and trigger specific behavior.
+    
+    \thm Which functionality of story 2 was hard (or even impossible) to test? Why?
+    
+    \thm Now try the same for Story 3 (moving monsters). Why are these scenarios hard to test?
+  
+  \subsection{Boundary Testing}
+    \thm Provide a domain matrix for the desired behavior of the boundary values in the withinBorders method.
+
+    \thm Implement the corresponding test by using JUnit’s Parameters annotation.
+  
+  \subsection{Submit Part I}
+    \thm In your report, analyze whether the code is ready for submission: Explain check-style violations that remain (if any), provide a log of all tests passing, and include a brief assessment of the additional adequacy achieved in the jpacman-framework thanks to your new classes. Also reflect on your continuous integration server results, and your commit behavior.
+    
+    \thm Create a release with appropriate version number in your pom file, git tag and push. Submit the zip and report to CPM as well.
+
+\end{document}
