@@ -123,21 +123,25 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException
 	 */
     @Test
-    public void consume() {
+    public void consume() throws InterruptedException {
         Game game = launcher.getGame();
         Player player = game.getPlayers().get(0);
+        Square myLocation = player.getSquare();
+        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
+        
+        // Before starting, make sure that the square to the East contains a Pellet
+        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
 
         // start cleanly.
         game.start();
         
-        Square myLocation = player.getSquare();
-        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
-        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
-        
+        // Move 1 square to the East
         game.move(player, Direction.EAST);
         assertEquals(nextLocation, player.getSquare());
 		assertEquals(10, player.getScore());
 		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
+		
+		Thread.sleep(500L);
     }
 
     /**
