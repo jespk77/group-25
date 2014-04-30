@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.group25.MyExtension;
 import nl.tudelft.jpacman.level.Player;
@@ -56,7 +57,8 @@ public class LauncherSmokeTest {
         game.start();
         assertTrue(game.isInProgress());
         assertEquals(0, player.getScore());
-
+        
+        
         // get points
         game.move(player, Direction.EAST);
         assertEquals(10, player.getScore());
@@ -87,10 +89,64 @@ public class LauncherSmokeTest {
         move(game, Direction.WEST, 10);
         move(game, Direction.EAST, 10);
         assertFalse(player.isAlive());
-
+        
         game.stop();
         assertFalse(game.isInProgress());
      }
+    
+    @Test
+    public void story4_1_Suspend() {
+    	Game game = launcher.getGame();        
+        game.start();
+        
+        //stop the game
+        game.stop();
+        assertEquals(false,game.isInProgress());
+    }
+    
+    @Test
+    public void story4_2_Restart() {
+    	Game game = launcher.getGame();        
+        game.start();
+        
+        //stop the game
+        game.stop();
+        game.start();
+        assertEquals(true,game.isInProgress());
+    }
+    
+    @Test
+    public void story4_1_direction() throws InterruptedException {
+    	Game game = launcher.getGame();        
+        Player player = game.getPlayers().get(0);
+        game.start();
+        player.setDirection(Direction.WEST);
+        Thread.sleep(1000);
+        //stop the game
+        game.stop();
+        assertEquals(false,game.isInProgress());
+        
+        //change the direction of the player
+        player.setDirection(Direction.EAST);
+        assertEquals(Direction.EAST, player.getDirection());
+    }
+    
+    @Test
+    public void story4_1_square() {
+    	//Make the game
+    	Game game = launcher.getGame();        
+        Player player = game.getPlayers().get(0);
+        game.start();
+        //Stop the game, check if it is pauzed
+        game.stop();
+        assertEquals(false,game.isInProgress());
+        
+        //Move the player to another square
+        //Check if he is still at the same square
+        Square temp = player.getSquare();
+        game.move(player, Direction.EAST);
+        assertEquals(temp, player.getSquare());
+    }
 
     /**
      * Make number of moves in given direction.
