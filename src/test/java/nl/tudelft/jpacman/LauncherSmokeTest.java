@@ -3,11 +3,9 @@ package nl.tudelft.jpacman;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 
@@ -144,8 +142,14 @@ public class LauncherSmokeTest {
 		Thread.sleep(500L);
     }
 	
+    /**
+     * Scenario S4.1: Suspend the game.
+	 * Given the game has started;
+	 * When  the player clicks the "Stop" button;
+	 * Then  all moves from ghosts and the player are suspended.
+     */
     @Test
-    public void story4_1_Suspend() {
+    public void suspend() {
     	Game game = launcher.getGame();        
         game.start();
         
@@ -154,8 +158,14 @@ public class LauncherSmokeTest {
         assertEquals(false,game.isInProgress());
     }
     
+    /**
+     * Scenario S4.2: Restart the game.
+     * Given the game is suspended;
+     * When  the player hits the "Start" button;
+     * Then  the game is resumed.
+     */
     @Test
-    public void story4_2_Restart() {
+    public void restart() {
     	Game game = launcher.getGame();        
         game.start();
         
