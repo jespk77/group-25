@@ -135,9 +135,46 @@ public class LauncherSmokeTest {
 
 		// Move 1 square to the East
 		game.move(player, Direction.EAST);
+		// Check that we've moved 1 square to the east
 		assertEquals(nextLocation, player.getSquare());
+		// Check that we've picked up a Pellet worth 10 points
 		assertEquals(10, player.getScore());
+		// Check that the pellet is not an occupant of the square anymore
 		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
+
+		Thread.sleep(100L);
+	}
+
+	/**
+	 * Scenario S2.2: The player moves on empty square
+	 * Given the game has started,
+	 *  and  my Pacman is next to an empty square;
+	 * When  I press an arrow key towards that square;
+	 * Then  my Pacman can move to that square
+	 *  and  my points remain the same.
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void moveEmpty() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		Square myLocation = player.getSquare();
+
+		// Start the game and move one square to the east
+		game.start();
+		game.move(player, Direction.EAST);
+		
+		// The square at our original location should have no Pellets on it
+		assertTrue(myLocation.getOccupants().isEmpty());
+
+		// Store our score before we move back to our starting position
+		int score = player.getScore();
+		game.move(player, Direction.WEST);
+		
+		// Check that we've moved to our starting position
+		assertEquals(myLocation, player.getSquare());
+		// Check that our score has remained the same
+		assertEquals(score, player.getScore());
 
 		Thread.sleep(100L);
 	}
@@ -154,24 +191,24 @@ public class LauncherSmokeTest {
 		Game game = launcher.getGame();
 		Player player = game.getPlayers().get(0);
 		game.start();
-		
+
 		player.setDirection(Direction.WEST);
 		Thread.sleep(100L);
 
 		// stop the game
 		game.stop();
 		assertEquals(false, game.isInProgress());
-        
-        // change the direction of the player
-        player.setDirection(Direction.EAST);
-        assertEquals(Direction.EAST, player.getDirection());
-        
+
+		// change the direction of the player
+		player.setDirection(Direction.EAST);
+		assertEquals(Direction.EAST, player.getDirection());
+
 		// move the player to another square
 		// check if he is still at the same square
-        Square myLocation = player.getSquare();
+		Square myLocation = player.getSquare();
 		game.move(player, Direction.EAST);
 		assertEquals(myLocation, player.getSquare());
-    }
+	}
 
 	/**
 	 * Scenario S4.2: Restart the game.
@@ -190,7 +227,7 @@ public class LauncherSmokeTest {
 		game.stop();
 		Thread.sleep(100L);
 		assertFalse(game.isInProgress());
-		
+
 		// and start the game again
 		game.start();
 		Thread.sleep(100L);
