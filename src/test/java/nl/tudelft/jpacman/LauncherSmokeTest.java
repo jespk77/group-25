@@ -1,10 +1,10 @@
 package nl.tudelft.jpacman;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.group25.MyExtension;
 import nl.tudelft.jpacman.level.Player;
 
 import org.junit.After;
@@ -28,11 +28,11 @@ import org.junit.Test;
  */
 public class LauncherSmokeTest {
 	
-	private MyExtension launcher;
+	private Launcher launcher;
 	
 	@Before
 	public void setUpPacman() {
-		launcher = new MyExtension();
+		launcher = new Launcher();
 		launcher.launch();
 	}
 	
@@ -91,6 +91,16 @@ public class LauncherSmokeTest {
         game.stop();
         assertFalse(game.isInProgress());
      }
+    
+    @Test
+    public void userStory1() throws InterruptedException {
+        Game game = launcher.getGame();
+ 
+        // start cleanly.
+        assertFalse(game.isInProgress());
+        game.start();
+        assertTrue(game.isInProgress());
+    }
 
     /**
      * Make number of moves in given direction.
