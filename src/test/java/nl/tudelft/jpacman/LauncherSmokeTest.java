@@ -147,6 +147,7 @@ public class LauncherSmokeTest {
 	 * Given the game has started;
 	 * When  the player clicks the "Stop" button;
 	 * Then  all moves from ghosts and the player are suspended.
+	 * @throws InterruptedException
 	 */
 	@Test
 	public void suspend() throws InterruptedException {
@@ -177,15 +178,18 @@ public class LauncherSmokeTest {
 	 * Given the game is suspended;
 	 * When  the player hits the "Start" button;
 	 * Then  the game is resumed.
+	 * @throws InterruptedException
 	 */
 	@Test
-	public void restart() {
+	public void restart() throws InterruptedException {
 		Game game = launcher.getGame();        
 		game.start();
 
 		// stop the game
 		game.stop();
-		assertTrue(game.isInProgress());
+		assertFalse(game.isInProgress());
+		
+		Thread.sleep(1000L);
 		
 		// and start the game again
 		game.start();
