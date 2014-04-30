@@ -45,28 +45,6 @@ public class LauncherSmokeTest {
 		launcher.dispose();
 	}
 
-<<<<<<< HEAD
-    /**
-     * Launch the game, and imitate what would happen
-     * in a typical game.
-     * @throws InterruptedException Since we're sleeping in this test.
-     */
-    @Test
-    public void smokeTest() throws InterruptedException {
-        Game game = launcher.getGame();        
-        Player player = game.getPlayers().get(0);
- 
-        // start cleanly.
-        assertFalse(game.isInProgress());
-        game.start();
-        assertTrue(game.isInProgress());
-        assertEquals(0, player.getScore());
-        
-        
-        // get points
-        game.move(player, Direction.EAST);
-        assertEquals(10, player.getScore());
-=======
 	/**
 	 * Launch the game, and imitate what would happen
 	 * in a typical game.
@@ -82,7 +60,6 @@ public class LauncherSmokeTest {
 		game.start();
 		assertTrue(game.isInProgress());
 		assertEquals(0, player.getScore());
->>>>>>> 48367c01748b3c50e7cd1249e12562548e52dc29
 
 		// get points
 		game.move(player, Direction.EAST);
@@ -100,22 +77,73 @@ public class LauncherSmokeTest {
 		move(game, Direction.NORTH, 6);
 		assertEquals(120, player.getScore());
 
-<<<<<<< HEAD
-        move(game, Direction.NORTH, 2);
+		// no more points to earn here.
+		move(game, Direction.WEST, 2);
+		assertEquals(120, player.getScore());
+
+		move(game, Direction.NORTH, 2);
+
+		// Sleeping in tests is generally a bad idea.
+		// Here we do it just to let the monsters move.
+		Thread.sleep(500L);
+
+		// we're close to monsters, this will get us killed.
+		move(game, Direction.WEST, 10);
+		move(game, Direction.EAST, 10);
+		assertFalse(player.isAlive());
+
+		game.stop();
+		assertFalse(game.isInProgress());
+	}
+	
+	/**
+	 * Scenario S1.1: Start.
+	 * Given the user has launched the JPacman GUI;
+	 * When  the user presses the "Start" button;
+	 * Then  the game should start.
+	 */
+	@Test
+	public void start() {
+		Game game = launcher.getGame();
+
+		// start cleanly.
+		assertFalse(game.isInProgress());
+		game.start();
+		assertTrue(game.isInProgress());
+	}
+
+	/**
+	 * Scenario S2.1: The player consumes
+	 * Given the game has started,
+	 *  and  my Pacman is next to a square containing a pellet;
+	 * When  I press an arrow key towards that square;
+	 * Then  my Pacman can move to that square,
+	 *  and  I earn the points for the pellet,
+	 *  and  the pellet disappears from that square.
+	 * @throws InterruptedException
+	 */
+    @Test
+    public void consume() throws InterruptedException {
+        Game game = launcher.getGame();
+        Player player = game.getPlayers().get(0);
+        Square myLocation = player.getSquare();
+        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
         
-        // Sleeping in tests is generally a bad idea.
-        // Here we do it just to let the monsters move.
-        Thread.sleep(500L);
-      
-        // we're close to monsters, this will get us killed.
-        move(game, Direction.WEST, 10);
-        move(game, Direction.EAST, 10);
-        assertFalse(player.isAlive());
+        // Before starting, make sure that the square to the East contains a Pellet
+        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
+
+        // start cleanly.
+        game.start();
         
-        game.stop();
-        assertFalse(game.isInProgress());
-     }
-    
+        // Move 1 square to the East
+        game.move(player, Direction.EAST);
+        assertEquals(nextLocation, player.getSquare());
+		assertEquals(10, player.getScore());
+		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
+		
+		Thread.sleep(500L);
+    }
+	
     @Test
     public void story4_1_Suspend() {
     	Game game = launcher.getGame();        
@@ -168,74 +196,6 @@ public class LauncherSmokeTest {
         Square temp = player.getSquare();
         game.move(player, Direction.EAST);
         assertEquals(temp, player.getSquare());
-    }
-=======
-		// no more points to earn here.
-		move(game, Direction.WEST, 2);
-		assertEquals(120, player.getScore());
->>>>>>> 48367c01748b3c50e7cd1249e12562548e52dc29
-
-		move(game, Direction.NORTH, 2);
-
-		// Sleeping in tests is generally a bad idea.
-		// Here we do it just to let the monsters move.
-		Thread.sleep(500L);
-
-		// we're close to monsters, this will get us killed.
-		move(game, Direction.WEST, 10);
-		move(game, Direction.EAST, 10);
-		assertFalse(player.isAlive());
-
-		game.stop();
-		assertFalse(game.isInProgress());
-	}
-
-	/**
-	 * Scenario S1.1: Start.
-	 * Given the user has launched the JPacman GUI;
-	 * When  the user presses the "Start" button;
-	 * Then  the game should start.
-	 */
-	@Test
-	public void start() {
-		Game game = launcher.getGame();
-
-		// start cleanly.
-		assertFalse(game.isInProgress());
-		game.start();
-		assertTrue(game.isInProgress());
-	}
-
-	/**
-	 * Scenario S2.1: The player consumes
-	 * Given the game has started,
-	 *  and  my Pacman is next to a square containing a pellet;
-	 * When  I press an arrow key towards that square;
-	 * Then  my Pacman can move to that square,
-	 *  and  I earn the points for the pellet,
-	 *  and  the pellet disappears from that square.
-	 * @throws InterruptedException
-	 */
-    @Test
-    public void consume() throws InterruptedException {
-        Game game = launcher.getGame();
-        Player player = game.getPlayers().get(0);
-        Square myLocation = player.getSquare();
-        Square nextLocation = myLocation.getSquareAt(Direction.EAST);
-        
-        // Before starting, make sure that the square to the East contains a Pellet
-        assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
-
-        // start cleanly.
-        game.start();
-        
-        // Move 1 square to the East
-        game.move(player, Direction.EAST);
-        assertEquals(nextLocation, player.getSquare());
-		assertEquals(10, player.getScore());
-		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
-		
-		Thread.sleep(500L);
     }
 
     /**
