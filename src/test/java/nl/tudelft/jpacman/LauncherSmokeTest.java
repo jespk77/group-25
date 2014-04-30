@@ -4,16 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 import org.junit.After;
 import org.junit.Before;
@@ -268,7 +269,20 @@ public class LauncherSmokeTest {
 	 * Scenario S2.5: Player wins, extends S2.2
 	 * When  I have eaten the last pellet;
 	 * Then  I win the game.
-	 */ 
+	 */
+	//@Test
+	public void win() throws InterruptedException {
+		Game game = launcher.getGame();
+		Level level = game.getLevel();
+		
+		// Wait for the player to either die or to win
+		while (level.isAnyPlayerAlive() && level.remainingPellets() > 0) {
+			Thread.sleep(100L);
+		}
+		
+		assertTrue(level.isAnyPlayerAlive());
+		assertFalse(level.isInProgress());
+	}
 
 	/**
 	 * Scenario S4.1: Suspend the game.
