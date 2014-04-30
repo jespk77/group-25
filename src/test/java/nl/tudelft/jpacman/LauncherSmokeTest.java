@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.tudelft.jpacman.board.Direction;
@@ -197,21 +198,20 @@ public class LauncherSmokeTest {
 		Game game = launcher.getGame();
 		Player player = game.getPlayers().get(0);
 		Square myLocation = player.getSquare();
-
+		Direction monsterDirection = null;
+		
 		// Start the game
 		game.start();
 		assertTrue(player.isAlive());
 
 		// Wait until there is a ghost next to us
-		Direction monsterDirection = null;
 		while (monsterDirection == null) {
+			// Loop over the squares in all four directions
 			for (Direction dir: Direction.values()) {
-				List<Unit> occupants = myLocation.getSquareAt(dir).getOccupants();
-				for (Unit unit: occupants) {
-					if (unit instanceof Ghost) {
-						monsterDirection = dir;
-					}
-				}
+				// ... and check whether a monster is on them
+				Square adjacent = myLocation.getSquareAt(dir);
+				if (monsterOn(adjacent))
+					monsterDirection = dir;
 			}
 			Thread.sleep(50L);
 		}
@@ -224,7 +224,7 @@ public class LauncherSmokeTest {
 		// Check that the game is no longer in progress
 		assertFalse(game.isInProgress());
 		
-		Thread.sleep(1000L);
+		Thread.sleep(100L);
 	}
 	
 	/**
@@ -308,5 +308,20 @@ public class LauncherSmokeTest {
 		for (int i = 0; i < numSteps; i++) {
 			game.move(player, dir);
 		}
+	}
+	
+	/**
+	 * Test whether there are ghosts on a give square
+	 * @param square
+	 * @return
+	 */
+	public static boolean monsterOn(Square square) {
+		List<Unit> occupants = square.getOccupants();
+		for (Unit unit: occupants) {
+			if (unit instanceof Ghost) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
