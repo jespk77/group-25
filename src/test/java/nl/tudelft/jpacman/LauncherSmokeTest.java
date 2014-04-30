@@ -139,7 +139,7 @@ public class LauncherSmokeTest {
 		assertEquals(10, player.getScore());
 		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
 
-		Thread.sleep(500L);
+		Thread.sleep(100L);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class LauncherSmokeTest {
 		game.start();
 		
 		player.setDirection(Direction.WEST);
-		Thread.sleep(1000);
+		Thread.sleep(100L);
 
 		// stop the game
 		game.stop();
@@ -184,15 +184,16 @@ public class LauncherSmokeTest {
 	public void restart() throws InterruptedException {
 		Game game = launcher.getGame();        
 		game.start();
+		Thread.sleep(100L);
 
 		// stop the game
 		game.stop();
+		Thread.sleep(100L);
 		assertFalse(game.isInProgress());
-		
-		Thread.sleep(1000L);
 		
 		// and start the game again
 		game.start();
+		Thread.sleep(100L);
 		assertTrue(game.isInProgress());
 	}
 
