@@ -234,6 +234,35 @@ public class LauncherSmokeTest {
 	 * When  I press an arrow key towards that cell;
 	 * Then  the move is not conducted.
 	 */
+	@Test
+	public void moveWall() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		
+		Square myLocation, adjacent;
+		do {
+			// Move to the east
+			game.move(player, Direction.EAST);
+			
+			// Update our current location and adjacent square
+			myLocation = player.getSquare();
+			adjacent = myLocation.getSquareAt(Direction.EAST);
+		
+		// Keep doing this until the adjacent square isn't accessible (ie. it's a wall)
+		} while (adjacent.isAccessibleTo(player));
+		
+		// Check that it is indeed not accessible
+		assertFalse(adjacent.isAccessibleTo(player));
+		
+		// Try to go there anyway
+		game.move(player, Direction.EAST);
+		
+		// Check that we haven't moved since breaking out of the loop
+		assertEquals(myLocation, player.getSquare());
+		
+		Thread.sleep(100L);
+	}
 	
 	/**
 	 * Scenario S2.5: Player wins, extends S2.2
