@@ -14,7 +14,6 @@ import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.ui.PacManUiBuilder;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,15 +35,31 @@ import org.junit.Test;
  * @author Arie van Deursen, March 2014.
  */
 public class LauncherSmokeTest {
-
+	private static final long DEFAULT_INTERVAL = 100L;
+	
 	private Launcher launcher;
+	private Game game;
+	private Level level;
+	private Player player;
+	private Square myLocation;
 
+	/**
+	 * Sets up the game and initializes some variables we use quite often.
+	 */
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
+		
+		game = launcher.getGame();
+		level = game.getLevel();
+		player = game.getPlayers().get(0);
+		myLocation = player.getSquare();
 	}
 
+	/**
+	 * Tears down the game so it can gracefully exit.
+	 */
 	@After
 	public void tearDown() {
 		launcher.dispose();
@@ -57,9 +72,6 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void smokeTest() throws InterruptedException {
-		Game game = launcher.getGame();        
-		Player player = game.getPlayers().get(0);
-
 		// start cleanly.
 		assertFalse(game.isInProgress());
 		game.start();
@@ -109,8 +121,6 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void start() {
-		Game game = launcher.getGame();
-
 		// start cleanly.
 		assertFalse(game.isInProgress());
 		game.start();
@@ -125,31 +135,28 @@ public class LauncherSmokeTest {
 	 * Then  my Pacman can move to that square,
 	 *  and  I earn the points for the pellet,
 	 *  and  the pellet disappears from that square.
-	 * @throws InterruptedException
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void consume() throws InterruptedException {
-		Game game = launcher.getGame();
-		Player player = game.getPlayers().get(0);
-		Square myLocation = player.getSquare();
 		Square nextLocation = myLocation.getSquareAt(Direction.EAST);
 
 		// Before starting, make sure that the square to the East contains a Pellet
-		assertTrue(nextLocation.getOccupants().get(0) instanceof Pellet);
+		Unit unit = containsInstance(nextLocation, Pellet.class);
+		assertTrue(unit instanceof Pellet);
 
 		// start cleanly.
 		game.start();
-
-		// Move 1 square to the East
 		game.move(player, Direction.EAST);
+		
 		// Check that we've moved 1 square to the east
 		assertEquals(nextLocation, player.getSquare());
 		// Check that we've picked up a Pellet worth 10 points
-		assertEquals(10, player.getScore());
+		assertEquals(((Pellet) unit).getValue(), player.getScore());
 		// Check that the pellet is not an occupant of the square anymore
-		assertFalse(nextLocation.getOccupants().get(0) instanceof Pellet);
+		assertFalse(contains(nextLocation, Pellet.class));
 
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 
 	/**
@@ -159,16 +166,13 @@ public class LauncherSmokeTest {
 	 * When  I press an arrow key towards that square;
 	 * Then  my Pacman can move to that square
 	 *  and  my points remain the same.
-	 * @throws InterruptedException
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void moveEmpty() throws InterruptedException {
-		Game game = launcher.getGame();
-		Player player = game.getPlayers().get(0);
-		Square myLocation = player.getSquare();
-
-		// Start the game and move one square to the east
 		game.start();
+		
+		// Move one square to the east
 		game.move(player, Direction.EAST);
 		
 		// The square at our original location should have no Pellets on it
@@ -183,7 +187,7 @@ public class LauncherSmokeTest {
 		// Check that our score has remained the same
 		assertEquals(score, player.getScore());
 
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 	
 	/**
@@ -193,28 +197,26 @@ public class LauncherSmokeTest {
 	 * When  I press an arrow key towards that square;
 	 * Then  my Pacman dies,
 	 *  and  the game is over.
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void playerDies() throws InterruptedException {
-		Game game = launcher.getGame();
-		Player player = game.getPlayers().get(0);
-		Square myLocation = player.getSquare();
-		Direction monsterDirection = null;
-		
-		// Start the game
 		game.start();
+		
 		assertTrue(player.isAlive());
 
 		// Wait until there is a ghost next to us
+		Direction monsterDirection = null;
 		while (monsterDirection == null) {
 			// Loop over the squares in all four directions
 			for (Direction dir: Direction.values()) {
 				// ... and check whether a monster is on them
 				Square adjacent = myLocation.getSquareAt(dir);
-				if (monsterOn(adjacent))
+				if (contains(adjacent, Ghost.class)) {
 					monsterDirection = dir;
+				}
 			}
-			Thread.sleep(50L);
+			Thread.sleep(DEFAULT_INTERVAL);
 		}
 
 		// Now move towards the ghost
@@ -225,7 +227,7 @@ public class LauncherSmokeTest {
 		// Check that the game is no longer in progress
 		assertFalse(game.isInProgress());
 		
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 	
 	/**
@@ -234,11 +236,10 @@ public class LauncherSmokeTest {
 	 *  and my Pacman is next to a cell containing a wall;
 	 * When  I press an arrow key towards that cell;
 	 * Then  the move is not conducted.
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void moveWall() throws InterruptedException {
-		Game game = launcher.getGame();
-		Player player = game.getPlayers().get(0);
 		game.start();
 		
 		Square myLocation, adjacent;
@@ -262,22 +263,20 @@ public class LauncherSmokeTest {
 		// Check that we haven't moved since breaking out of the loop
 		assertEquals(myLocation, player.getSquare());
 		
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 	
 	/**
 	 * Scenario S2.5: Player wins, extends S2.2
 	 * When  I have eaten the last pellet;
 	 * Then  I win the game.
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	//@Test
 	public void win() throws InterruptedException {
-		Game game = launcher.getGame();
-		Level level = game.getLevel();
-		
 		// Wait for the player to either die or to win
 		while (level.isAnyPlayerAlive() && level.remainingPellets() > 0) {
-			Thread.sleep(100L);
+			Thread.sleep(DEFAULT_INTERVAL);
 		}
 		
 		assertTrue(level.isAnyPlayerAlive());
@@ -289,16 +288,14 @@ public class LauncherSmokeTest {
 	 * Given the game has started;
 	 * When  the player clicks the "Stop" button;
 	 * Then  all moves from ghosts and the player are suspended.
-	 * @throws InterruptedException
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void suspend() throws InterruptedException {
-		Game game = launcher.getGame();
-		Player player = game.getPlayers().get(0);
 		game.start();
 
 		player.setDirection(Direction.WEST);
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 
 		// stop the game
 		game.stop();
@@ -320,31 +317,30 @@ public class LauncherSmokeTest {
 	 * Given the game is suspended;
 	 * When  the player hits the "Start" button;
 	 * Then  the game is resumed.
-	 * @throws InterruptedException
+	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
 	public void restart() throws InterruptedException {
-		Game game = launcher.getGame();        
 		game.start();
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 
 		// stop the game
 		game.stop();
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 		assertFalse(game.isInProgress());
 
 		// and start the game again
 		game.start();
-		Thread.sleep(100L);
+		Thread.sleep(DEFAULT_INTERVAL);
 		assertTrue(game.isInProgress());
 	}
 
 	/**
 	 * Make number of moves in given direction.
 	 *
-	 * @param game The game we're playing
-	 * @param dir The direction to be taken
-	 * @param numSteps The number of steps to take
+	 * @param game		The game we're playing
+	 * @param dir		The direction to be taken
+	 * @param numSteps	The number of steps to take
 	 */
 	public static void move(Game game, Direction dir, int numSteps) {
 		Player player = game.getPlayers().get(0);
@@ -354,17 +350,31 @@ public class LauncherSmokeTest {
 	}
 	
 	/**
-	 * Test whether there are ghosts on a give square
-	 * @param square
-	 * @return
+	 * Test whether a given square has an occupant of the given class.
+	 * @param square	the given square
+	 * @param c			the given class
+	 * @return			if true:  an instance of c
+	 * 					if false: null
 	 */
-	public static boolean monsterOn(Square square) {
+	public Unit containsInstance(Square square, Class<?> c) {
 		List<Unit> occupants = square.getOccupants();
 		for (Unit unit: occupants) {
-			if (unit instanceof Ghost) {
-				return true;
+			if (c.isInstance(unit)) {
+				return unit;
 			}
 		}
-		return false;
+		return null;
+	}
+	
+	/**
+	 * Convenience function for containsInstance.
+	 * Returns a boolean instead of an instance.
+	 * @param square	the given square
+	 * @param c			the given class
+	 * @return			true if square contains an instance of class c
+	 * 					false otherwise
+	 */
+	public boolean contains(Square square, Class<?> c) {
+		return containsInstance(square, c) != null;
 	}
 }
