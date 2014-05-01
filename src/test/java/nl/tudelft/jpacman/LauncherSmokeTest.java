@@ -11,9 +11,12 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Level.LevelObserver;
+import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -138,12 +141,11 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
-	public void consume() throws InterruptedException {
+	public void playerConsumes() throws InterruptedException {
 		Square nextLocation = myLocation.getSquareAt(Direction.EAST);
 
 		// Before starting, make sure that the square to the East contains a Pellet
-		Unit unit = containsInstance(nextLocation, Pellet.class);
-		assertTrue(unit instanceof Pellet);
+		assertTrue(contains(nextLocation, Pellet.class));
 
 		// start cleanly.
 		game.start();
@@ -152,7 +154,7 @@ public class LauncherSmokeTest {
 		// Check that we've moved 1 square to the east
 		assertEquals(nextLocation, player.getSquare());
 		// Check that we've picked up a Pellet worth 10 points
-		assertEquals(((Pellet) unit).getValue(), player.getScore());
+		assertEquals(10, player.getScore());
 		// Check that the pellet is not an occupant of the square anymore
 		assertFalse(contains(nextLocation, Pellet.class));
 
@@ -169,7 +171,7 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
-	public void moveEmpty() throws InterruptedException {
+	public void playerMoves() throws InterruptedException {
 		game.start();
 		
 		// Move one square to the east
@@ -239,7 +241,7 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	@Test
-	public void moveWall() throws InterruptedException {
+	public void moveFails() throws InterruptedException {
 		game.start();
 		
 		Square myLocation, adjacent;
@@ -273,16 +275,80 @@ public class LauncherSmokeTest {
 	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
 	//@Test
-	public void win() throws InterruptedException {
-		// Wait for the player to either die or to win
+	public void playerWins() throws InterruptedException {
+		// The only way to know the game has been won is through an observer.
+		class TestObserver implements LevelObserver {
+			private boolean hasWon = false;
+			public boolean hasWon() { return hasWon; }
+			public void	levelWon() { hasWon = true; }
+			public void levelLost() { hasWon = false; }
+		};
+		
+		// Create a testobserver and register it with the level.
+		TestObserver observer = new TestObserver();
+		level.addObserver(observer);
+		
+		// Wait for the player to either die or to win.
 		while (level.isAnyPlayerAlive() && level.remainingPellets() > 0) {
 			Thread.sleep(DEFAULT_INTERVAL);
 		}
 		
+		// Check whether the game has been won.
 		assertTrue(level.isAnyPlayerAlive());
 		assertFalse(level.isInProgress());
+		assertTrue(observer.hasWon());
 	}
-
+	
+	/**
+	 * Scenario S3.1: A ghost moves.
+	 * Given the game has started,
+	 *  and  a ghost is next to an empty cell;
+	 * When  a tick event occurs;
+	 * Then  the ghost can move to that cell.
+	 */
+	@Test
+	public void ghostMoves() throws InterruptedException {
+		
+	}
+	
+	/**
+	 * Scenario S3.2: The ghost moves over food.
+	 * Given the game has started,
+	 *  and  a ghost is next to a cell containing food;
+	 * When  a tick event occurs;
+	 * Then  the ghost can move to the food cell,
+	 *  and  the food on that cell is not visible anymore.
+	 */
+	@Test
+	public void ghostMovesOverFood() throws InterruptedException {
+		
+	}
+	
+	/**
+	 * Scenario S3.3: The ghost leaves a food cell.
+	 * Given a ghost is on a food cell (see S3.2);
+	 * When  a tick even occurs;
+	 * Then  the ghost can move to away from the food cell,
+	 *  and  the food on that cell is is visible again.
+	 */
+	@Test
+	public void ghostLeavesFood() throws InterruptedException {
+		
+	}
+	
+	/**
+	 * Scenario S3.4: The player dies.
+	 * Given the game has started,
+	 *  and  a ghost is next to a cell containing the player;
+	 * When  a tick event occurs;
+	 * Then  the ghost can move to the player,
+	 *  and  the game is over.
+	 */
+	@Test
+	public void playerDiesByGhost() throws InterruptedException {
+		
+	}
+	 
 	/**
 	 * Scenario S4.1: Suspend the game.
 	 * Given the game has started;
@@ -353,28 +419,16 @@ public class LauncherSmokeTest {
 	 * Test whether a given square has an occupant of the given class.
 	 * @param square	the given square
 	 * @param c			the given class
-	 * @return			if true:  an instance of c
-	 * 					if false: null
-	 */
-	public Unit containsInstance(Square square, Class<?> c) {
-		List<Unit> occupants = square.getOccupants();
-		for (Unit unit: occupants) {
-			if (c.isInstance(unit)) {
-				return unit;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Convenience function for containsInstance.
-	 * Returns a boolean instead of an instance.
-	 * @param square	the given square
-	 * @param c			the given class
 	 * @return			true if square contains an instance of class c
 	 * 					false otherwise
 	 */
 	public boolean contains(Square square, Class<?> c) {
-		return containsInstance(square, c) != null;
+		List<Unit> occupants = square.getOccupants();
+		for (Unit unit: occupants) {
+			if (c.isInstance(unit)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
