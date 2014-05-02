@@ -2,6 +2,7 @@
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{multirow}
 
 \title{TI1705 - Part I}
 \author{Gerlof Fokkema - 4257286\\
@@ -17,22 +18,87 @@
     Your introduction goes here!
       
   \subsection{End-to-End Testing}
-    \thm Execute the smoke test, with coverage enabled. What overall (line) coverage percentage do you get? Name 2 classes that are not well-tested, and explain why the smoke test does not cover it.
+    \begin{thm}
+      Execute the smoke test, with coverage enabled. What overall (line) coverage percentage do you get? Name 2 classes that are not well-tested, and explain why the smoke test does not cover it.
+    \end{thm}    
+    The overall coverage percentage for the smoke test is 79\% (test classes excluded). \\
+    One thing to note is that the line coverage varies slightly between runs. This is because testing is done using the interactive GUI. Therefore the actions that are tested are slightly influenced by the random movements of the pacman ghosts. \\
+    Two classes that are not well-tested are:
+    \begin{itemize}
+      \item nl.tudelft.jpacman.level.CollisionInteractionMap
+      \item nl.tudelft.jpacman.level.DefaultPlayerInteractionMap
+    \end{itemize}
+    The reason for the limited coverage in those classes is that the GUI is only started for a limited time. These two classes are both involved in collision handling. Because JPacman is only started for a limited time no collision scenario's are encountered during the tests.
 
-    \thm Study the acceptance scenarios for User Stories 1, 2, and 4. Turn each of them into a test case, as far as possible. To do so, use the approach adopted in LauncherSmokeTest to start the game and trigger specific behavior.
+
+    \begin{thm}
+      Study the acceptance scenarios for User Stories 1, 2, and 4. Turn each of them into a test case, as far as possible. To do so, use the approach adopted in LauncherSmokeTest to start the game and trigger specific behavior.
+    \end{thm}
+    No specific remarks.
+
+
+    \begin{thm}
+      Which functionality of story 2 was hard (or even impossible) to test? Why?
+    \end{thm}
+    Scenario "S2.5: Player wins" was hard to test. \\
+    We can't simply automate the test scenario for S2.5, because it would involve writing a whole algorithm for a non human player controlling JPacman. \\
+    One way we can test it however, is by looping our JUnit tests until a human player eats the last Pellet. We can then see whether the JPacman framework will correctly decide the game has been won. This is how we've implemented the test for Scenario S2.5.
+
+
+    \begin{thm}
+      Now try the same for Story 3 (moving monsters). Why are these scenarios hard to test?
+    \end{thm}
     
-    \thm Which functionality of story 2 was hard (or even impossible) to test? Why?
-    
-    \thm Now try the same for Story 3 (moving monsters). Why are these scenarios hard to test?
   
   \subsection{Boundary Testing}
-    \thm Provide a domain matrix for the desired behavior of the boundary values in the withinBorders method.
+    \begin{thm}
+      Provide a domain matrix for the desired behavior of the boundary values in the withinBorders method.
+    \end{thm}
+    \begin{tabular}{| l | l | l | l | l | l | l | l | l | l | l | l |}
+      \hline
+        \multicolumn{11}{| c |}{"x \textgreater= 0 \&\& x \textless getWidth() \&\& y \textgreater= 0 \&\& y \textless getHeight()"} \\
+      \hline
+        \multicolumn{3}{| c |}{Boundary} & \multicolumn{8}{| c |}{Test Cases} \\
+      \hline
+        Variable	&	Condition	&	Type	& t1 & t2 & t3 & t4 & t5 & t6 & t7 & t8 \\
+      \hline
+        \multirow{5}{*}{x}
+          & \multirow{2}{*}{\textgreater= 0}
+            & on  & 0 & & & & & & & \\ \cline{3-11}
+          & & off & & -1 & & & & & & \\ \cline{2-11}
+          & \multirow{2}{*}{\textless getWidth()}
+            & on  & & & val & & & & & \\ \cline{3-11}
+          & & off & & & & val & & & & \\ \cline{2-11}
+          & typical & in & & & & & 1 & 2 & 3 & 4 \\ \cline{3-11}
+      \hline
+        \multirow{5}{*}{y}
+          & \multirow{2}{*}{\textgreater= 0}
+            & on  & & & & & 0 & & & \\ \cline{3-11}
+          & & off & & & & & & -1 & & \\ \cline{2-11}
+          & \multirow{2}{*}{\textless getHeight()}
+            & on  & & & & & & & val & \\ \cline{3-11}
+          & & off & & & & & & & & val \\ \cline{2-11}
+          & typical & in & 1 & 2 & 3 & 4 & & & & \\ \cline{3-11}
+      \hline
+        \multicolumn{3}{| c |}{Result} & & & & & & & & \\
+      \hline
+    \end{tabular}
+    
 
-    \thm Implement the corresponding test by using JUnit’s Parameters annotation.
+    \begin{thm}
+      Implement the corresponding test by using JUnit’s Parameters annotation.
+    \end{thm}
+    
   
   \subsection{Submit Part I}
-    \thm In your report, analyze whether the code is ready for submission: Explain check-style violations that remain (if any), provide a log of all tests passing, and include a brief assessment of the additional adequacy achieved in the jpacman-framework thanks to your new classes. Also reflect on your continuous integration server results, and your commit behavior.
+    \begin{thm}
+      In your report, analyze whether the code is ready for submission: Explain check-style violations that remain (if any), provide a log of all tests passing, and include a brief assessment of the additional adequacy achieved in the jpacman-framework thanks to your new classes. Also reflect on your continuous integration server results, and your commit behavior.
+    \end{thm}
     
-    \thm Create a release with appropriate version number in your pom file, git tag and push. Submit the zip and report to CPM as well.
+    
+    \begin{thm}
+      Create a release with appropriate version number in your pom file, git tag and push. Submit the zip and report to CPM as well.
+    \end{thm}
+    
 
 \end{document}

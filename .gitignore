@@ -1,5 +1,6 @@
 # For our emacs users
 *~
+*.swp
 
 # All generated files will be in target thanks to the use of maven
 target/
@@ -8,4 +9,3 @@ target/
 .classpath
 .project
 .settings/
-TI1705.sublime-*
