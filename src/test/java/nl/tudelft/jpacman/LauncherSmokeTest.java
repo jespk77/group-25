@@ -407,6 +407,7 @@ setUpSimpleGhostPacman();
 			next = blinky.getDirection();
 			sqNext = sq.getSquareAt(next);
 			Thread.sleep(DEFAULT_INTERVAL);
+			System.out.println(sqNext);
 		}
 		System.out.println("I'm at the player");
 		Thread.sleep(200);
