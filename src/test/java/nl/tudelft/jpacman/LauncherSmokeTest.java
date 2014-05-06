@@ -346,6 +346,9 @@ public class LauncherSmokeTest {
 		game.start();
 		Thread.sleep(5000);
 		Ghost test = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();
+		Square temp = test.getSquare();
+		test.nextMove();
+		Thread.sleep(1000);
 		System.out.println(test);
 	}
 	
