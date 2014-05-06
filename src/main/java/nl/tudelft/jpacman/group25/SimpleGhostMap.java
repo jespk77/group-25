@@ -16,6 +16,7 @@ import nl.tudelft.jpacman.npc.ghost.GhostFactory;
  */
 
 public class SimpleGhostMap extends Launcher {
+	CustomGhostFactory factory;
 
 	/**
 	 * Start the pacman user interface.
@@ -35,7 +36,7 @@ public class SimpleGhostMap extends Launcher {
 		MapParser parser = getMapParser();
 		try {
 			return parser.parseMap(Launcher.class
-					.getResourceAsStream("/board.txt"));
+					.getResourceAsStream("/simpleghostmap.txt"));
 		} catch (IOException e) {
 			throw new PacmanConfigurationException("Unable to create level.", e);
 		}
@@ -45,6 +46,14 @@ public class SimpleGhostMap extends Launcher {
 	 * @return A new factory using the sprites from {@link #getSpriteStore()}.
 	 */
 	protected GhostFactory getGhostFactory() {
-		return new CustomGhostFactory(getSpriteStore());
+		factory = new CustomGhostFactory(getSpriteStore());
+		return factory;
+	}
+	
+	/**
+	 * @return The current GhostFactory we're using.
+	 */
+	public CustomGhostFactory getCustomGhostFactory() {
+		return factory;
 	}
 }
