@@ -481,6 +481,7 @@ public class LauncherSmokeTest {
 		// stop the game
 		game.stop();
 		Thread.sleep(DEFAULT_INTERVAL);
+		//Check if the game is still running
 		assertFalse(game.isInProgress());
 
 		// and start the game again
