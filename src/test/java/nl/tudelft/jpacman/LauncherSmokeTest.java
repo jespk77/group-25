@@ -343,8 +343,12 @@ public class LauncherSmokeTest {
 	public void ghostMoves() throws InterruptedException {
 		setUpSimpleGhostPacman();
 		
+		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		Ghost blinky = gf.popBlinky();
+		
 		game.start();
 		Thread.sleep(5000);
+<<<<<<< HEAD
 		Ghost test = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();
 		Square temp = test.getSquare();
 		test.nextMove();
@@ -353,6 +357,10 @@ public class LauncherSmokeTest {
 		System.out.println(test);
 		
 		assertEquals(temp, temp2);
+=======
+		
+		System.out.println(blinky);
+>>>>>>> 232c7587cee418afd8b249fc1fea1791b23d9b1e
 	}
 	
 	/**
