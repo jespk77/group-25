@@ -10,14 +10,12 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.group25.MyExtension;
+import nl.tudelft.jpacman.group25.SimpleMap;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
-import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -286,7 +284,7 @@ public class LauncherSmokeTest {
 		};
 		
 		launcher.dispose();
-		launcher = new MyExtension();
+		launcher = new SimpleMap();
 		launcher.launch();
 		
 		game = launcher.getGame();
