@@ -15,8 +15,7 @@
 \begin{document}
   \maketitle
   \section{Part I}
-    Your introduction goes here!
-      
+  
   \subsection{End-to-End Testing}
     \begin{thm}
       Execute the smoke test, with coverage enabled. What overall (line) coverage percentage do you get? Name 2 classes that are not well-tested, and explain why the smoke test does not cover it.
@@ -37,19 +36,38 @@
     No specific remarks.
 
 
+	\newpage
     \begin{thm}
       Which functionality of story 2 was hard (or even impossible) to test? Why?
     \end{thm}
     Scenario "S2.5: Player wins" was hard to test. \\
     We can't simply automate the test scenario for S2.5, because it would involve writing a whole algorithm for a non human player controlling JPacman. \\
-    One way we can test it however, is by looping our JUnit tests until a human player eats the last Pellet. We can then see whether the JPacman framework will correctly decide the game has been won. This is how we've implemented the test for Scenario S2.5.
+    One way we can test it however, is by customizing our Board. To achieve this, we've created the class SimpleMap.
+    This class extends the default launcher, but it overrides the makeLevel function in order to launch JPacman with a custom board. 
+    We then shrunk the board we used to a size of 3x4 (see the map below). \\
+    \verb|####| \\
+    \verb|#P.#| \\
+    \verb|####| \\
+    All we have to do to win now is move the player one tile to the right. After this move we can immediately test whether the game has really been won.
 
 
     \begin{thm}
       Now try the same for Story 3 (moving monsters). Why are these scenarios hard to test?
     \end{thm}
+    One problem we encountered immediately when trying to implement Story 3 is the fact that there is no class that facilitates direct access to the NPC's present on the Board.
+    We have also customized the board again (again, see the map below). \\
+    \verb|####| \\
+	\verb|#G.#| \\
+	\verb|#..#| \\
+	\verb|###P| \\
+    Therefore we have created the classes SimpleGhostMap and CustomGhostFactory.
+	Our CustomGhostFactory keeps track of all Blinkies that are created. Using it's method popBlinky() we can get a reference to the most recently created Blinky.
+	Our SimpleGhostMap then uses this factory to create a Level based on our custom Board. \\
+	After all this preparation there was another problem we encountered: The movement of Blinky is random and cannot be easily influenced.
+	In some cases this means we have to wait until Blinky executes a certain action before we can check our test results.
     
   
+  \newpage
   \subsection{Boundary Testing}
     \begin{thm}
       Provide a domain matrix for the desired behavior of the boundary values in the withinBorders method.
@@ -67,8 +85,8 @@
             & on  & 0 & & & & & & & \\ \cline{3-11}
           & & off & & -1 & & & & & & \\ \cline{2-11}
           & \multirow{2}{*}{\textless getWidth()}
-            & on  & & & val & & & & & \\ \cline{3-11}
-          & & off & & & & val & & & & \\ \cline{2-11}
+            & on  & & & 5 & & & & & \\ \cline{3-11}
+          & & off & & & & 6 & & & & \\ \cline{2-11}
           & typical & in & & & & & 1 & 2 & 3 & 4 \\ \cline{3-11}
       \hline
         \multirow{5}{*}{y}
@@ -76,8 +94,8 @@
             & on  & & & & & 0 & & & \\ \cline{3-11}
           & & off & & & & & & -1 & & \\ \cline{2-11}
           & \multirow{2}{*}{\textless getHeight()}
-            & on  & & & & & & & val & \\ \cline{3-11}
-          & & off & & & & & & & & val \\ \cline{2-11}
+            & on  & & & & & & & 5 & \\ \cline{3-11}
+          & & off & & & & & & & & 6 \\ \cline{2-11}
           & typical & in & 1 & 2 & 3 & 4 & & & & \\ \cline{3-11}
       \hline
         \multicolumn{3}{| c |}{Result} & & & & & & & & \\
@@ -88,6 +106,7 @@
     \begin{thm}
       Implement the corresponding test by using JUnit’s Parameters annotation.
     \end{thm}
+    No specific remarks.
     
   
   \subsection{Submit Part I}
