@@ -11,11 +11,13 @@ import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.group25.SimpleMap;
+import nl.tudelft.jpacman.group25.npc.ghost.CustomGhostFactory;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.sprite.Sprite;
 
 import org.junit.After;
 import org.junit.Before;
@@ -324,6 +326,8 @@ public class LauncherSmokeTest {
 	public void ghostMoves() throws InterruptedException {
 		game.start();
 		Thread.sleep(5000);
+		Ghost test = ((Object) launcher).getCustomGhostFactory() ;
+		//System.out.println(test);
 	}
 	
 	/**
