@@ -18,7 +18,7 @@ import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.sprite.Sprite;
+import nl.tudelft.jpacman.sprite.ImageSprite;
 
 import org.junit.After;
 import org.junit.Before;
@@ -347,19 +347,14 @@ public class LauncherSmokeTest {
 		Ghost blinky = gf.popBlinky();
 		
 		game.start();
-		Thread.sleep(5000);
 
 		Square temp = blinky.getSquare();
-		blinky.nextMove();
+		Square nextSquare = temp.getSquareAt(blinky.nextMove());
+		System.out.println("Empty: " + nextSquare.isAccessibleTo(blinky));
+		Thread.sleep(200);
 		Square temp2 = blinky.getSquare();
-		Thread.sleep(1000);
-		System.out.println(blinky);
-		
-		assertEquals(temp, temp2);
 
-		
-		System.out.println(blinky);
-
+		assertEquals(nextSquare, temp2);
 	}
 	
 	/**
@@ -372,7 +367,7 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostMovesOverFood() throws InterruptedException {
-		
+		// There is no food so this test is practically impossible
 	}
 	
 	/**
@@ -384,7 +379,7 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostLeavesFood() throws InterruptedException {
-		
+		// Again there is no food
 	}
 	
 	/**
@@ -397,7 +392,26 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void playerDiesByGhost() throws InterruptedException {
+setUpSimpleGhostPacman();
 		
+		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		Ghost blinky = gf.popBlinky();
+
+		game.start();
+		Square sq = blinky.getSquare();
+		Direction next = blinky.getDirection();
+		Square sqNext = sq.getSquareAt(next);
+		
+		while(!contains(sqNext, Player.class)) {
+			sq = blinky.getSquare();
+			next = blinky.getDirection();
+			sqNext = sq.getSquareAt(next);
+			Thread.sleep(DEFAULT_INTERVAL);
+		}
+		System.out.println("I'm at the player");
+		Thread.sleep(200);
+		System.out.println("He dead");
+		assertEquals(false, player.isAlive());
 	}
 	 
 	/**
