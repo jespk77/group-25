@@ -341,20 +341,32 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostMoves() throws InterruptedException {
+		//setup the game board we want to user
 		setUpSimpleGhostPacman();
 		
+		//Build our custom ghosts
 		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		
+		//Pop one ghost to test with
 		Ghost blinky = gf.popBlinky();
 		
+		//Launch the created game
 		game.start();
 
+		//Get the current square the ghost is standing
 		Square temp = blinky.getSquare();
+		//Get the square the bot can to move to next
 		Square nextSquare = temp.getSquareAt(blinky.nextMove());
+		//Confirm that it is a square the gost can go to
 		System.out.println("Empty: " + nextSquare.isAccessibleTo(blinky));
+		//Whait for the bot to perform it's actions
 		Thread.sleep(200);
+		//Get the new square the bot is standing on next
 		Square temp2 = blinky.getSquare();
-
+		//Check if the square the bot could move to is indeed the square it is now
 		assertEquals(nextSquare, temp2);
+		
+		//If so, the bot has indeed moved to a square next to him wich he could stand on
 	}
 	
 	/**
@@ -392,26 +404,36 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void playerDiesByGhost() throws InterruptedException {
-setUpSimpleGhostPacman();
+		//ANNOTATION: Because of our custom map, the bot has one direction in which it can go
 		
+		//Set up the game
+		setUpSimpleGhostPacman();
+		//Load our customized ghosts
 		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		//Pop another Blinky on which we can test
 		Ghost blinky = gf.popBlinky();
-
+		//Start the actual game
 		game.start();
+		//Get the square the ghost is standing on
 		Square sq = blinky.getSquare();
+		//Get the direction in with the ghost is heading
 		Direction next = blinky.getDirection();
+		//Obtain the square in the direction of the ghost
 		Square sqNext = sq.getSquareAt(next);
 		
+		//Suspend the test until we are actually at the player to check if it gets killed
+		
+		//Break if the next square contains the player
 		while(!contains(sqNext, Player.class)) {
+			//update the squares and directions of the ghost
 			sq = blinky.getSquare();
 			next = blinky.getDirection();
 			sqNext = sq.getSquareAt(next);
 			Thread.sleep(DEFAULT_INTERVAL);
-			System.out.println(sqNext);
 		}
-		System.out.println("I'm at the player");
+		//Suspend to give the ghost time to move to the square of the player
 		Thread.sleep(200);
-		System.out.println("He dead");
+		//Check if the player is indeed no longer alive
 		assertEquals(false, player.isAlive());
 	}
 	 
@@ -425,7 +447,7 @@ setUpSimpleGhostPacman();
 	@Test
 	public void suspend() throws InterruptedException {
 		game.start();
-
+		//Set the initial direction of the ghost
 		player.setDirection(Direction.WEST);
 		Thread.sleep(DEFAULT_INTERVAL);
 
