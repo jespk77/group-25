@@ -13,14 +13,14 @@ import nl.tudelft.jpacman.level.MapParser;
  * and injecting the relevant instances at the right places.
  */
 
-public class MyExtension extends Launcher {
+public class SimpleMap extends Launcher {
 
 	/**
 	 * Start the pacman user interface.
 	 * @param argv Ignored
 	 */
 	public static void main(String[] argv) {
-		(new MyExtension()).launch();
+		(new SimpleMap()).launch();
 	}
 	
 	/**
