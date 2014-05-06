@@ -18,7 +18,6 @@ import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.sprite.Sprite;
 
 import org.junit.After;
 import org.junit.Before;
