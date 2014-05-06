@@ -10,6 +10,7 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.group25.SimpleGhostMap;
 import nl.tudelft.jpacman.group25.SimpleMap;
 import nl.tudelft.jpacman.group25.npc.ghost.CustomGhostFactory;
 import nl.tudelft.jpacman.level.Level;
@@ -53,6 +54,28 @@ public class LauncherSmokeTest {
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
+		launcher.launch();
+		
+		game = launcher.getGame();
+		level = game.getLevel();
+		player = game.getPlayers().get(0);
+		myLocation = player.getSquare();
+	}
+	
+	public void setUpSimplePacman() {
+		launcher.dispose();
+		launcher = new SimpleMap();
+		launcher.launch();
+		
+		game = launcher.getGame();
+		level = game.getLevel();
+		player = game.getPlayers().get(0);
+		myLocation = player.getSquare();
+	}
+	
+	public void setUpSimpleGhostPacman() {
+		launcher.dispose();
+		launcher = new SimpleGhostMap();
 		launcher.launch();
 		
 		game = launcher.getGame();
@@ -277,6 +300,8 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void playerWins() throws InterruptedException {
+		setUpSimplePacman();
+		
 		// The only way to know the game has been won is through an observer.
 		class TestObserver implements LevelObserver {
 			private boolean hasWon = false;
@@ -284,14 +309,6 @@ public class LauncherSmokeTest {
 			public void	levelWon() { hasWon = true; }
 			public void levelLost() { hasWon = false; }
 		};
-		
-		launcher.dispose();
-		launcher = new SimpleMap();
-		launcher.launch();
-		
-		game = launcher.getGame();
-		player = game.getPlayers().get(0);
-		level = game.getLevel();
 		
 		// Create a testobserver and register it with the level.
 		TestObserver observer = new TestObserver();
@@ -324,10 +341,12 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostMoves() throws InterruptedException {
+		setUpSimpleGhostPacman();
+		
 		game.start();
 		Thread.sleep(5000);
-		Ghost test = ((Object) launcher).getCustomGhostFactory() ;
-		//System.out.println(test);
+		Ghost test = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();
+		System.out.println(test);
 	}
 	
 	/**
