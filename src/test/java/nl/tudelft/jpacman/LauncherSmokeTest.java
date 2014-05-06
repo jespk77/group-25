@@ -322,7 +322,8 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostMoves() throws InterruptedException {
-		
+		game.start();
+		Thread.sleep(5000);
 	}
 	
 	/**
