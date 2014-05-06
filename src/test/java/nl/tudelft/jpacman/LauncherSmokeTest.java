@@ -10,13 +10,12 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.group25.SimpleMap;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Level.LevelObserver;
-import nl.tudelft.jpacman.level.LevelFactory;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -274,7 +273,7 @@ public class LauncherSmokeTest {
 	 * Then  I win the game.
 	 * @throws InterruptedException	Although not recommended, we use sleep here
 	 */
-	//@Test
+	@Test
 	public void playerWins() throws InterruptedException {
 		// The only way to know the game has been won is through an observer.
 		class TestObserver implements LevelObserver {
@@ -284,9 +283,22 @@ public class LauncherSmokeTest {
 			public void levelLost() { hasWon = false; }
 		};
 		
+		launcher.dispose();
+		launcher = new SimpleMap();
+		launcher.launch();
+		
+		game = launcher.getGame();
+		player = game.getPlayers().get(0);
+		level = game.getLevel();
+		
 		// Create a testobserver and register it with the level.
 		TestObserver observer = new TestObserver();
 		level.addObserver(observer);
+		
+		game.start();
+		
+		// Pick up the only pellet in the level.
+		game.move(player, Direction.EAST);
 		
 		// Wait for the player to either die or to win.
 		while (level.isAnyPlayerAlive() && level.remainingPellets() > 0) {
@@ -297,6 +309,8 @@ public class LauncherSmokeTest {
 		assertTrue(level.isAnyPlayerAlive());
 		assertFalse(level.isInProgress());
 		assertTrue(observer.hasWon());
+		
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 	
 	/**
