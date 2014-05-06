@@ -379,7 +379,44 @@ public class LauncherSmokeTest {
 	 */
 	@Test
 	public void ghostMovesOverFood() throws InterruptedException {
-		// There is no food so this test is practically impossible
+		setUpSimpleGhostPacman();
+		
+		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		Ghost blinky = gf.popBlinky();
+
+		game.start();
+		
+		Square sq = blinky.getSquare();
+		Direction next = blinky.getDirection();
+		Square sqNext = sq.getSquareAt(next);
+		
+		// We sleep until the Ghost is going to a square with food next
+		while(!contains(sqNext, Pellet.class)) {
+			Thread.sleep(DEFAULT_INTERVAL);
+			
+			sq = blinky.getSquare();
+			next = blinky.getDirection();
+			sqNext = sq.getSquareAt(next);
+		}
+		
+		List<Unit> occupants;
+		Unit lastOccupant;
+		
+		// We're at the food, now verify that the visible occupant (the last one) is a Pellet
+		occupants = sqNext.getOccupants();
+		lastOccupant = occupants.get(occupants.size() - 1);
+		assertTrue(lastOccupant instanceof Pellet);
+		
+		// Now sleep until we moved and check that the last occupant is not a Pellet anymore
+		Thread.sleep(200);
+		assertEquals(sqNext, blinky.getSquare());
+		
+		// Verify that the visible occupant is not a Pellet anymore
+		occupants = sqNext.getOccupants();
+		lastOccupant = occupants.get(occupants.size() - 1);
+		assertFalse(lastOccupant instanceof Pellet);
+		
+		Thread.sleep(200);
 	}
 	
 	/**
