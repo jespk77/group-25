@@ -115,11 +115,20 @@
     \begin{thm}
       In your report, analyze whether the code is ready for submission: Explain check-style violations that remain (if any), provide a log of all tests passing, and include a brief assessment of the additional adequacy achieved in the jpacman-framework thanks to your new classes. Also reflect on your continuous integration server results, and your commit behavior.
     \end{thm}
+    Most of our comments and code styles were already according to the standards set by check-style.
+    Because of this our code already passed most check-style verifications.
+    Some of our methods where a little bit long, so we had to shorten them to meet the requirement. 
+    Also we had some unused imports so it was usefull to see the checkstyles. 
+    Most other warnings were regarding magic numbers and JavaDOC missing @throws annotations. \\
+    The only check-style warnings that are left in our project are in the supplied test class LauncherSmokeTest.java and in the parameterized test, WithinBordersTest.java.
+    The check-style warnings regarding magic numbers in the WithinBordersTest cannot be solved, since this is a parameterized test.
     
     
     \begin{thm}
       Create a release with appropriate version number in your pom file, git tag and push. Submit the zip and report to CPM as well.
     \end{thm}
+    POM Version: 1.0
+    \\
+    No other specific remarks
     
-
 \end{document}
