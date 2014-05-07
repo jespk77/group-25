@@ -95,8 +95,7 @@ public class Scenario3Test {
 	 */
 	@Test
 	public void ghostMovesOverFood() throws InterruptedException {
-		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
-		Ghost blinky = gf.popBlinky();
+		Ghost blinky = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();
 		game.start();
 		Square sq = blinky.getSquare();
 		Square sqNext = sq.getSquareAt(blinky.getDirection());
@@ -136,24 +135,17 @@ public class Scenario3Test {
 	 */
 	@Test
 	public void ghostLeavesFood() throws InterruptedException {
-		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
-		Ghost blinky = gf.popBlinky();
-
+		Ghost blinky = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();		
 		game.start();
-
 		Square sq = blinky.getSquare();
-		Direction next = blinky.getDirection();
-		Square sqNext = sq.getSquareAt(next);
+		Square sqNext = sq.getSquareAt(blinky.getDirection());
 
 		// We sleep until the Ghost is going to a square with food next
-		while(!Util.contains(sqNext, Pellet.class)) {
+		while (!Util.contains(sqNext, Pellet.class)) {
 			Thread.sleep(DEFAULT_INTERVAL);
-
 			sq = blinky.getSquare();
-			next = blinky.getDirection();
-			sqNext = sq.getSquareAt(next);
+			sqNext = sq.getSquareAt(blinky.getDirection());
 		}
-
 		List<Unit> occupants;
 		Unit lastOccupant;
 
@@ -163,17 +155,14 @@ public class Scenario3Test {
 		assertTrue(lastOccupant instanceof Pellet);
 
 		// Now sleep until we moved and check that the last occupant is not a Pellet anymore
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 		assertEquals(sqNext, blinky.getSquare());
 
 		// Verify that the visible occupant is not a Pellet anymore
-		// Also verify that the food is still on the Pellet
 		occupants = sqNext.getOccupants();
 		lastOccupant = occupants.get(occupants.size() - 1);
 		assertFalse(lastOccupant instanceof Pellet);
 		assertTrue(Util.contains(sqNext, Pellet.class));
-
-		Thread.sleep(200);
 	}
 
 	/**
@@ -187,11 +176,8 @@ public class Scenario3Test {
 	 */
 	@Test
 	public void playerDiesByGhost() throws InterruptedException {
-		//ANNOTATION: Because of our custom map, the bot has one direction in which it can go
 		//Load our customized ghosts
-		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
-		//Pop another Blinky on which we can test
-		Ghost blinky = gf.popBlinky();
+		Ghost blinky = ((SimpleGhostMap) launcher).getCustomGhostFactory().popBlinky();
 		//Start the actual game
 		game.start();
 		//Get the square the ghost is standing on
@@ -203,7 +189,7 @@ public class Scenario3Test {
 
 		//Suspend the test until we are actually at the player to check if it gets killed
 		//Break if the next square contains the player
-		while(!Util.contains(sqNext, Player.class)) {
+		while (!Util.contains(sqNext, Player.class)) {
 			//update the squares and directions of the ghost
 			sq = blinky.getSquare();
 			next = blinky.getDirection();
@@ -211,7 +197,7 @@ public class Scenario3Test {
 			Thread.sleep(DEFAULT_INTERVAL);
 		}
 		//Suspend to give the ghost time to move to the square of the player
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 		//Check if the player is indeed no longer alive
 		assertEquals(false, player.isAlive());
 	}

@@ -16,7 +16,7 @@ import nl.tudelft.jpacman.npc.ghost.GhostFactory;
  */
 
 public class SimpleGhostMap extends Launcher {
-	CustomGhostFactory factory;
+	private CustomGhostFactory factory;
 
 	/**
 	 * Start the pacman user interface.

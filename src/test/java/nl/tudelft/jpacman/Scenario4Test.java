@@ -12,6 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/** 
+ * 
+ * @author joris en gerlof
+ * This class tests the user story described by 4
+ *
+ */
 public class Scenario4Test {
 	private static final long DEFAULT_INTERVAL = 100L;
 
