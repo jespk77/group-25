@@ -203,7 +203,7 @@ public class Scenario3Test {
 
 		//Suspend the test until we are actually at the player to check if it gets killed
 		//Break if the next square contains the player
-		while(!Util.contains(sqNext, Player.class)) {
+		while (!Util.contains(sqNext, Player.class)) {
 			//update the squares and directions of the ghost
 			sq = blinky.getSquare();
 			next = blinky.getDirection();
@@ -211,7 +211,7 @@ public class Scenario3Test {
 			Thread.sleep(DEFAULT_INTERVAL);
 		}
 		//Suspend to give the ghost time to move to the square of the player
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 		//Check if the player is indeed no longer alive
 		assertEquals(false, player.isAlive());
 	}
