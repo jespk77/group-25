@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.group25.npc.ghost;
 
 import java.util.LinkedList;
 
-import nl.tudelft.jpacman.npc.ghost.Blinky;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
