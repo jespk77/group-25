@@ -22,7 +22,7 @@ public class SimpleGhostMap extends Launcher {
 	 * Start the pacman user interface.
 	 * @param argv Ignored
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] argv) {
 		(new SimpleGhostMap()).launch();
 	}
 	

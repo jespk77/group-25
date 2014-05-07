@@ -1,21 +1,27 @@
 package nl.tudelft.jpacman;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.group25.SimpleMap;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.level.Pellet;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.level.Level.LevelObserver;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * This class tests all scenario's for User Story 1.
+ */
 public class Scenario2Test {
 	private static final long DEFAULT_INTERVAL = 100L;
+	private static final long PELLET_VALUE = 10;
 
 	private Launcher launcher;
 	private Game game;
@@ -37,6 +43,9 @@ public class Scenario2Test {
 		myLocation = player.getSquare();
 	}
 	
+	/**
+	 * Sets up the game using a simple Board and initializes some variables we use quite often.
+	 */
 	public void setUpSimplePacman() {
 		launcher.dispose();
 		launcher = new SimpleMap();
@@ -72,7 +81,7 @@ public class Scenario2Test {
 		// Check that we've moved 1 square to the east
 		assertEquals(nextLocation, player.getSquare());
 		// Check that we've picked up a Pellet worth 10 points
-		assertEquals(10, player.getScore());
+		assertEquals(PELLET_VALUE, player.getScore());
 		// Check that the pellet is not an occupant of the square anymore
 		assertFalse(Util.contains(nextLocation, Pellet.class));
 
@@ -195,14 +204,6 @@ public class Scenario2Test {
 	@Test
 	public void playerWins() throws InterruptedException {
 		setUpSimplePacman();
-		
-		// The only way to know the game has been won is through an observer.
-		class TestObserver implements LevelObserver {
-			private boolean hasWon = false;
-			public boolean hasWon() { return hasWon; }
-			public void	levelWon() { hasWon = true; }
-			public void levelLost() { hasWon = false; }
-		};
 
 		// Create a testobserver and register it with the level.
 		TestObserver observer = new TestObserver();
@@ -220,4 +221,25 @@ public class Scenario2Test {
 
 		Thread.sleep(DEFAULT_INTERVAL);
 	}
+	
+	/**
+	 * The only way to know the game has been won is through an observer.
+	 * This observer is used by the playerWins test.
+	 */
+	class TestObserver implements LevelObserver {
+		private boolean hasWon = false;
+		/**
+		 * Query whether the game has been won.
+		 * @return boolean that indicates whether the player has won.
+		 */
+		public boolean hasWon() { return hasWon; }
+		/**
+		 * levelWon is a Level listener and gets called when the last Pellet is picked up.
+		 */
+		public void	levelWon() { hasWon = true; }
+		/**
+		 * levelLost is a Level listener and gets called when the player dies.
+		 */
+		public void levelLost() { hasWon = false; }
+	};
 }

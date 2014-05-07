@@ -139,7 +139,44 @@ public class Scenario3Test {
 	 */
 	@Test
 	public void ghostLeavesFood() throws InterruptedException {
-		// Again there is no food
+		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
+		Ghost blinky = gf.popBlinky();
+
+		game.start();
+
+		Square sq = blinky.getSquare();
+		Direction next = blinky.getDirection();
+		Square sqNext = sq.getSquareAt(next);
+
+		// We sleep until the Ghost is going to a square with food next
+		while(!Util.contains(sqNext, Pellet.class)) {
+			Thread.sleep(DEFAULT_INTERVAL);
+
+			sq = blinky.getSquare();
+			next = blinky.getDirection();
+			sqNext = sq.getSquareAt(next);
+		}
+
+		List<Unit> occupants;
+		Unit lastOccupant;
+
+		// We're at the food, now verify that the visible occupant (the last one) is a Pellet
+		occupants = sqNext.getOccupants();
+		lastOccupant = occupants.get(occupants.size() - 1);
+		assertTrue(lastOccupant instanceof Pellet);
+
+		// Now sleep until we moved and check that the last occupant is not a Pellet anymore
+		Thread.sleep(200);
+		assertEquals(sqNext, blinky.getSquare());
+
+		// Verify that the visible occupant is not a Pellet anymore
+		// Also verify that the food is still on the Pellet
+		occupants = sqNext.getOccupants();
+		lastOccupant = occupants.get(occupants.size() - 1);
+		assertFalse(lastOccupant instanceof Pellet);
+		assertTrue(Util.contains(sqNext, Pellet.class));
+
+		Thread.sleep(200);
 	}
 
 	/**
@@ -167,7 +204,6 @@ public class Scenario3Test {
 		Square sqNext = sq.getSquareAt(next);
 
 		//Suspend the test until we are actually at the player to check if it gets killed
-
 		//Break if the next square contains the player
 		while(!Util.contains(sqNext, Player.class)) {
 			//update the squares and directions of the ghost

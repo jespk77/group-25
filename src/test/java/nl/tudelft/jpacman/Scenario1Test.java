@@ -8,6 +8,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * This class tests all scenario's for User Story 1.
+ */
 public class Scenario1Test {
 	private Launcher launcher;
 	private Game game;
