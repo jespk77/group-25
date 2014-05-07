@@ -20,8 +20,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/** The test class for user story 3. */
 public class Scenario3Test {
-	private static final long DEFAULT_INTERVAL = 100L;
+	private static final long DEFAULT_INTERVAL = 200L;
 
 	private Launcher launcher;
 	private Game game;
@@ -54,6 +55,7 @@ public class Scenario3Test {
 	 *  and  a ghost is next to an empty cell;
 	 * When  a tick event occurs;
 	 * Then  the ghost can move to that cell.
+	 * @throws InterruptedException - throws exception of the build factories go wrong
 	 */
 	@Test
 	public void ghostMoves() throws InterruptedException {
@@ -71,15 +73,15 @@ public class Scenario3Test {
 		//Get the square the bot can to move to next
 		Square nextSquare = temp.getSquareAt(blinky.nextMove());
 		//Confirm that it is a square the gost can go to
-		System.out.println("Empty: " + nextSquare.isAccessibleTo(blinky));
+		assertTrue(nextSquare.isAccessibleTo(blinky));
 		//Whait for the bot to perform it's actions
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 		//Get the new square the bot is standing on next
 		Square temp2 = blinky.getSquare();
 		//Check if the square the bot could move to is indeed the square it is now
 		assertEquals(nextSquare, temp2);
 
-		//If so, the bot has indeed moved to a square next to him wich he could stand on
+		//If so, the bot has indeed moved to a square next to him which he could stand on
 	}
 
 	/**
@@ -89,27 +91,22 @@ public class Scenario3Test {
 	 * When  a tick event occurs;
 	 * Then  the ghost can move to the food cell,
 	 *  and  the food on that cell is not visible anymore.
+	 * @throws InterruptedException - Throws an error if the build factory goes wrong
 	 */
 	@Test
 	public void ghostMovesOverFood() throws InterruptedException {
 		CustomGhostFactory gf = ((SimpleGhostMap) launcher).getCustomGhostFactory();
 		Ghost blinky = gf.popBlinky();
-
 		game.start();
-
 		Square sq = blinky.getSquare();
-		Direction next = blinky.getDirection();
-		Square sqNext = sq.getSquareAt(next);
+		Square sqNext = sq.getSquareAt(blinky.getDirection());
 
 		// We sleep until the Ghost is going to a square with food next
-		while(!Util.contains(sqNext, Pellet.class)) {
+		while (!Util.contains(sqNext, Pellet.class)) {
 			Thread.sleep(DEFAULT_INTERVAL);
-
 			sq = blinky.getSquare();
-			next = blinky.getDirection();
-			sqNext = sq.getSquareAt(next);
+			sqNext = sq.getSquareAt(blinky.getDirection());
 		}
-
 		List<Unit> occupants;
 		Unit lastOccupant;
 
@@ -119,15 +116,14 @@ public class Scenario3Test {
 		assertTrue(lastOccupant instanceof Pellet);
 
 		// Now sleep until we moved and check that the last occupant is not a Pellet anymore
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 		assertEquals(sqNext, blinky.getSquare());
 
 		// Verify that the visible occupant is not a Pellet anymore
 		occupants = sqNext.getOccupants();
 		lastOccupant = occupants.get(occupants.size() - 1);
 		assertFalse(lastOccupant instanceof Pellet);
-
-		Thread.sleep(200);
+		Thread.sleep(DEFAULT_INTERVAL);
 	}
 
 	/**
@@ -136,6 +132,7 @@ public class Scenario3Test {
 	 * When  a tick even occurs;
 	 * Then  the ghost can move to away from the food cell,
 	 *  and  the food on that cell is is visible again.
+	 *  @throws InterruptedException - Throws an error if the build factory goes wrong
 	 */
 	@Test
 	public void ghostLeavesFood() throws InterruptedException {
@@ -149,6 +146,7 @@ public class Scenario3Test {
 	 * When  a tick event occurs;
 	 * Then  the ghost can move to the player,
 	 *  and  the game is over.
+	 *  @throws InterruptedException - Throws an error if the build factory goes wrong
 	 */
 	@Test
 	public void playerDiesByGhost() throws InterruptedException {
