@@ -53,11 +53,11 @@ public class WithinBordersTest {
 				{  0,  1, true },
 				{ -1,  2, false },
 				{  5,  3, false },
-				{  6,  4, false},
+				{  4,  4, true},
 				{  1,  0, true },
 				{  2, -1, false },
 				{  3,  5, false },
-				{  4,  6, false }
+				{  4,  4, true}
 		});
 	}
 	
