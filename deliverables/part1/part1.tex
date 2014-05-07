@@ -6,7 +6,7 @@
 
 \title{TI1705 - Part I}
 \author{Gerlof Fokkema - 4257286\\
-		Joris Lamers - \textless studentnr\textgreater}
+		Joris Lamers - 4233042}
 \date{\today}
 \setcounter{section}{2}
 \newtheorem{thm}{Exercise}
@@ -56,10 +56,10 @@
     \end{thm}
     One problem we encountered immediately when trying to implement Story 3 is the fact that there is no class that facilitates direct access to the NPC's present on the Board.
     We have also customized the board again (again, see the map below). \\
-    \verb|####| \\
-	\verb|#G.#| \\
-	\verb|#..#| \\
-	\verb|###P| \\
+    \verb|######| \\
+	\verb|#G...#| \\
+	\verb|####.#| \\
+	\verb|####P#| \\
     Therefore we have created the classes SimpleGhostMap and CustomGhostFactory.
 	Our CustomGhostFactory keeps track of all Blinkies that are created. Using it's method popBlinky() we can get a reference to the most recently created Blinky.
 	Our SimpleGhostMap then uses this factory to create a Level based on our custom Board. \\

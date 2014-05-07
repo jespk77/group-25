@@ -26,8 +26,6 @@ public class CustomGhostFactory extends GhostFactory {
 
 	/**
 	 * Creates a new Blinky / Shadow, the red Ghost.
-	 * 
-	 * @see Blinky
 	 * @return A new Blinky.
 	 */
 	@Override
