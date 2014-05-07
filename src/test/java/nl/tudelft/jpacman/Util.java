@@ -5,7 +5,15 @@ import java.util.List;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 
-public class Util {
+/**
+ * Util class containing methods used in all test classes.
+ */
+public final class Util {
+	/**
+	 * Private Util constructor that should not be called.
+	 */
+	private Util() { }
+	
 	/**
 	 * Test whether a given square has an occupant of the given class.
 	 * @param square	the given square

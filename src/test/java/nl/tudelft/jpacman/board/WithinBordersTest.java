@@ -13,18 +13,31 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+/**
+ * This class uses parameterized tests to test the Board.withinBorders method.
+ */
 @RunWith(Parameterized.class)
 public class WithinBordersTest {
-	int x, y;
-	boolean out;
-	Board board;
+	private int x, y;
+	private boolean out;
+	private Board board;
 	
+	/**
+	 * Creates an instance of the JUnit class WithinBordersTest.
+	 * @param x		the parameterized x variable
+	 * @param y		the parameterized y variable
+	 * @param out	the expected result
+	 */
 	public WithinBordersTest(int x, int y, boolean out) {
 		this.x = x;
 		this.y = y;
 		this.out = out;
 	}
 	
+	/**
+	 * Create a default 5x5 grid.
+	 * We use this grid to initialize our Board.
+	 */
 	@Before
 	public void createGame() {
 		Square[][] grid = new Square[5][5];
@@ -47,6 +60,10 @@ public class WithinBordersTest {
 		board = new Board(grid);
 	}
 	
+	/**
+	 * Method that specifies all parameterized values.
+	 * @return	list containing all parameterized values and expected results.
+	 */
 	@Parameters
 	public static Collection<Object[]> withinBordersData() {
 		return Arrays.asList(new Object[][] {
@@ -61,6 +78,9 @@ public class WithinBordersTest {
 		});
 	}
 	
+	/**
+	 * The actual test which uses our class variables x and y.
+	 */
 	@Test
 	public void withinBordersTest() {
 		assertEquals(out, board.withinBorders(x, y));
