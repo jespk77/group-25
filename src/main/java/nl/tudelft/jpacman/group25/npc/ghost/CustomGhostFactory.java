@@ -31,6 +31,7 @@ public class CustomGhostFactory extends GhostFactory {
 	 * @see Blinky
 	 * @return A new Blinky.
 	 */
+	@Override
 	public Ghost createBlinky() {
 		blinkies.push(super.createBlinky()); 
 		return blinkies.getLast();

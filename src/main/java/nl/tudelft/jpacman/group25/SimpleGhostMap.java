@@ -32,6 +32,7 @@ public class SimpleGhostMap extends Launcher {
 	 * 
 	 * @return A new level.
 	 */
+	@Override
 	public Level makeLevel() {
 		MapParser parser = getMapParser();
 		try {
@@ -45,6 +46,7 @@ public class SimpleGhostMap extends Launcher {
 	/**
 	 * @return A new factory using the sprites from {@link #getSpriteStore()}.
 	 */
+	@Override
 	protected GhostFactory getGhostFactory() {
 		factory = new CustomGhostFactory(getSpriteStore());
 		return factory;
