@@ -23,11 +23,16 @@
       to stub the factories, and use mockito to verify that reading a map leads to the
       proper interactions with those factories.
     \end{thm}
+    The factories that had to be stubbed were the LevelFactory and the BoardFactory.
+    Verifying proper behaviour was done by giving the MapParser a predefined map, for which we know the amount of squares.
+    After that we can count how often the MapParser has called specific functions and matching that against the known amounts.
 
     \begin{thm}
       Extend the test suite to bad weather situations,
       which should raise the proper exceptions.
     \end{thm}
+    While extending the test suite to bad weather situations, we encountered a problem with the way EclEmma calculates code coverage.
+    EclEmma is not able to calculate code coverage for lines that throw exceptions, therefore the reported code coverage score is significantly lower than the real score.
     
   \subsection{Testing Collisions}
     \begin{thm}
