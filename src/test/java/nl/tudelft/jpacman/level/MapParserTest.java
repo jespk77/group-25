@@ -99,11 +99,9 @@ public class MapParserTest {
 	 */
 	@Test
 	public void player() {
-		Board board = any(Board.class);
-		List<NPC> ghosts = anyListOf(NPC.class);
-		
 		parser.parseMap(grid1);
-		verify(levelCreator, times(1)).createLevel(board, ghosts, captor.capture());
+		verify(levelCreator, times(1)).
+			createLevel(any(Board.class), anyListOf(NPC.class), captor.capture());
 		assertEquals(1, captor.getValue().size());
 	}
 	
