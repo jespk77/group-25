@@ -1,0 +1,59 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+
+\title{TI1705 - Part II}
+\author{Gerlof Fokkema - 4257286}
+\date{\today}
+\setcounter{section}{3}
+\newtheorem{thm}{Exercise}
+\setcounter{thm}{8}
+
+
+\begin{document}
+  \maketitle
+  \section{Part I}
+  
+  \subsection{Mocks}
+    \begin{thm}
+      Write a test suite for the level.MapParser class. Start out with the nice
+      weather behavior, in which the board contains expected characters. Use mockito
+      to stub the factories, and use mockito to verify that reading a map leads to the
+      proper interactions with those factories.
+    \end{thm}
+
+    \begin{thm}
+      Extend the test suite to bad weather situations,
+      which should raise the proper exceptions.
+    \end{thm}
+    
+  \subsection{Testing Collisions}
+    \begin{thm}
+      Analyze requirements (doc/scenarios.md) and derive a decision table for the
+      JPacman collisions from it.
+    \end{thm}
+
+    \begin{thm}
+      Based on the decision table for collisions, derive a JUnit test suite for the
+      level.PlayerCollisions class.
+    \end{thm}
+
+    \begin{thm}
+      Restructure your test suite from exercise 12 so that you can execute the same test
+      suite on both PlayerCollision and DefaultPlayerInteractionMap objects.
+    \end{thm}
+    
+    \begin{thm}
+      Analyze the increase in coverage compared to the original tests in jpacman-framework,
+      and discuss what collision functionality you have covered additionally,
+      and which (if any) collision functionality is still unchecked.
+    \end{thm}
+  
+  \subsection{Submit Part II}
+    \begin{thm}
+      Submit Part II as you submitted as described in Section 3.3.
+    \end{thm}
+
+\end{document}
