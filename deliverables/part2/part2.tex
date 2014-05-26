@@ -26,7 +26,7 @@
     \end{thm}
     Please refer to \textit{nl.tudelft.jpacman.level.MapParserTest} for the implementation of the JUnit test. \\
     The factories that had to be stubbed were the \textit{LevelFactory} and the \textit{BoardFactory}.
-    Verifying proper behaviour was done by giving the MapParser a predefined map, for which we know the amount of squares.
+    Verifying proper behaviour was done by giving the \textit{MapParser} a predefined map, for which we know the amount of squares.
     After that we can count how often the \textit{MapParser} has called specific functions and we can match that against the known amounts.
 
     \begin{thm}
@@ -83,32 +83,34 @@
       Restructure your test suite from exercise 12 so that you can execute the same test
       suite on both PlayerCollision and DefaultPlayerInteractionMap objects.
     \end{thm}
-    To be able to execute the same test on multiple CollisionMaps, we've chosen to implement PlayerCollisionsTest as a parameterized JUnit test.
-    This means we won't be able to use the MockitoJUnitRunner. Therefore we initialize Mockito manually instead.
+    To be able to execute the same test on multiple \textit{CollisionMaps}, we've chosen to implement \textit{PlayerCollisionsTest} as a parameterized JUnit test.
+    This means we won't be able to use the \textit{MockitoJUnitRunner}. Therefore we initialize Mockito manually instead.
     
+    \newpage
     \begin{thm}
       Analyze the increase in coverage compared to the original tests in jpacman-framework,
       and discuss what collision functionality you have covered additionally,
       and which (if any) collision functionality is still unchecked.
     \end{thm}
-    
     The coverage percentage we reported in the previous lab exercise (excluding test cases) was 79\%.
     After implementing the test cases for this lab exercise, the overall coverage percentage has risen to 86\%.
     An overview of what has changed:
     \begin{table}[h]
       \begin{tabular}{|l|c|c|}
         \cline{2-3}
-        \multicolumn{1}{}{}		& Original coverage \%	& New coverage \%	\\ \hline
-        PlayerCollisions		&			&			\\ \hline
-        CollisionInteractionMap		&			&			\\ \hline
-        DefaultPlayerInteractionMap	&			&			\\ \hline
-        Overall				&			&			\\ \hline
+        \multicolumn{1}{l|}{}		& Original coverage \%	& New coverage \%	\\ \hline
+        PlayerCollisions		& 100 \%		& 100 \%		\\ \hline
+        CollisionInteractionMap		& 0 \%			& 97 \%			\\ \hline
+        DefaultPlayerInteractionMap	& 0 \%			& 100 \%		\\ \hline
+        Overall				& 81 \%			& 87 \%			\\ \hline
       \end{tabular}
     \end{table}
-    
-        In the original tests in jpacman-framework, the coverage for PlayerCollisions was 91\% and
-    the coverage for both CollisionInteractionMap and DefaultPlayerInteractionMap was 0\%.
-    The coverage percentage for CollisionInteractionMap has risen to 97\% and for 
+    Additionally covered functionality mainly includes the alternative collision handler, the \textit{DefaultPlayerInteractionMap}.
+    Of this collisions handler, we've now tested most functionality using multiple colliders and collidees. \\
+    Although the coverage percentages are now quite high, there is still untested functionality.
+    An example is what happens when a \textit{Player} moves onto a square that contains both a \textit{Ghost} and a \textit{Pellet}.
+    Other examples include the functionality of symetric collision handlers and unexpected situations
+    like the \textit{CollisionInteractionMap} not having a registered collisionHandler.
   
   \subsection{Submit Part II}
     \begin{thm}
