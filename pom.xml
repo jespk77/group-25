@@ -4,7 +4,7 @@
 
 	<groupId>nl.tudelft.jpacman</groupId>
 	<artifactId>stqe-lab-group-25</artifactId>
-	<version>6.2.1</version>
+	<version>6.2.2</version>
 	
 	<prerequisites>
 		<maven>2.2.1</maven>
