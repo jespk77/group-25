@@ -50,6 +50,7 @@ public class PlayerCollisionsTest {
 	
 	/**
 	 * When two players collide, nothing should happen.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void playerOnPlayer(CollisionMap map) {
@@ -61,6 +62,7 @@ public class PlayerCollisionsTest {
 	
 	/**
 	 * When a player and a ghost collide, the player should die.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void playerOnGhost(CollisionMap map) {
@@ -73,6 +75,7 @@ public class PlayerCollisionsTest {
 	/**
 	 * When a player and a pellet collide,
 	 * the player should receive points and the pellet should disappear.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void playerOnPellet(CollisionMap map) {
@@ -84,6 +87,7 @@ public class PlayerCollisionsTest {
 	
 	/**
 	 * When a ghost and a player collide, the player should die.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void ghostOnPlayer(CollisionMap map) {
@@ -95,6 +99,7 @@ public class PlayerCollisionsTest {
 	
 	/**
 	 * When a ghost and a ghost collide, nothing should happen.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void ghostOnGhost(CollisionMap map) {
@@ -106,6 +111,7 @@ public class PlayerCollisionsTest {
 	
 	/**
 	 * When a ghost and a pellet collide, nothing should happen.
+	 * @param map	the CollisionMap to use
 	 */
 	@Theory
 	public void ghostOnPellet(CollisionMap map) {
