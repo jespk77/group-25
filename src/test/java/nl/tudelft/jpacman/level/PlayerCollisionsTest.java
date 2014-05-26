@@ -27,8 +27,8 @@ public class PlayerCollisionsTest {
 	@Mock private Pellet pellet;
 	
 	/**
-	 * This method specifies all parameterized CollisionMaps.
-	 * @return	list containing all parameterized CollisionMaps
+	 * This method specifies all CollisionMaps that will be tested.
+	 * @return	list containing all CollisionMaps
 	 */
 	@DataPoints
 	public static CollisionMap[] maps() {

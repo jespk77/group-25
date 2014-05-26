@@ -83,7 +83,7 @@
       Restructure your test suite from exercise 12 so that you can execute the same test
       suite on both PlayerCollision and DefaultPlayerInteractionMap objects.
     \end{thm}
-    To be able to execute the same test on multiple \textit{CollisionMaps}, we've chosen to implement \textit{PlayerCollisionsTest} as a parameterized JUnit test.
+    To be able to execute the same test on multiple \textit{CollisionMaps}, we've chosen to implement \textit{PlayerCollisionsTest} as a JUnit Theories test.
     This means we won't be able to use the \textit{MockitoJUnitRunner}. Therefore we initialize Mockito manually instead.
     
     \newpage
