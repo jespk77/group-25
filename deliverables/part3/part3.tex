@@ -35,12 +35,12 @@
       \begin{tabular}{|l|l|l|l|}
         \hline
         Test ID & Start State & Events                                  & End State \\ \hline
-        T1      & Ready       & stop                                    & Ready \\ \hline
-        T2      & Ready       & start,stop                              & Ready \\ \hline
-        T3      & Ready       & start,start                             & Playing \\ \hline
-        T4      & Ready       & start,win,stop                          & Ended \\ \hline
-        T5      & Ready       & start,win,start                         & Ended \\ \hline
-        T6      & Ready       & start,lose                              & Ended \\ \hline
+        T1      & Ready       & stop                                    & Ready     \\ \hline
+        T2      & Ready       & start,stop                              & Ready     \\ \hline
+        T3      & Ready       & start,start                             & Playing   \\ \hline
+        T4      & Ready       & start,win,stop                          & Ended     \\ \hline
+        T5      & Ready       & start,win,start                         & Ended     \\ \hline
+        T6      & Ready       & start,lose                              & Ended     \\ \hline
       \end{tabular}
     \end{table}
     
@@ -52,7 +52,7 @@
     \begin{table}[h]
       \begin{tabular}{|l|l|l|l|l|}
         \hline
-        States  & \multicolumn{4}{|c|}{Event}       \\ \hline
+        States  & \multicolumn{4}{|c|}{Event}        \\ \hline
                 & start   & stop    & win    & lose  \\ \hline
         Ready   & Playing & Ready   &        &       \\ \hline
         Playing & Playing & Ready   & Ended  & Ended \\ \hline
@@ -64,15 +64,35 @@
       Write a test class for the \textit{Game.game} class containing the two test suites you just derived.
       If you think you need additional test cases, explain why, and add them to your test class.
     \end{thm}
+     Please refer to \textit{nl.tudelft.jpacman.game.GameTest} for the implementation of the JUnit test.
   
   \subsection{Multi-Level Games}
     \begin{thm}
       Provide an update for the scenario(s) from \textit{doc/scenarios.md} affected by the multi-level feature.
     \end{thm}
+    None of the scenarios in scenarios.md are affected by the switch to multi-level games,
+    since none of them test what happens when a game is stopped after it has already ended.
+    Therefore we provide a new user story: \\[.2cm]
+    \#\#\#\# Story 5: Start a new level \\[.4cm]
+    As a player, \\
+     I want to be able to start a new level \\
+    After I have won a previous level \\[.4cm]
+    Scenario S5.1: Start a new level. \\
+    Given the player has won less than 3 times \\
+    When  the player clicks the "Start" button; \\
+    Then  a new level is started. \\[.4cm]
+    Scenario S5.2: Player has won 3 times. \\
+    Given the player has won than 3 times \\
+    When  the player hits the "Start" button; \\
+    Then  no new level is started \\
 
+    \newpage
     \begin{thm}
       Adjust the statemachine from Excercise 16 so that it accommodates the multiple level functionality.
     \end{thm}
+    \begin{figure}[htb]
+      \includegraphics[height=6cm,keepaspectratio]{state-multi}
+    \end{figure}
 
     \begin{thm}
       Derive new test cases for this new state machine.
