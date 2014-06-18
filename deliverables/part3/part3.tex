@@ -98,27 +98,53 @@
       Derive new test cases for this new state machine.
       Which test cases that you earlier designed can be reused? Which ones must be adjusted?
     \end{thm}
+    All the test cases that have nothing to do with the Ended state can be reused.
+    Furthermore, since the only change in the diagram has the Ended state as begin State,
+    we do not need to alter the test cases for winning and losing.
+    Only the behaviour for start and stop when coming from the Ended state has changed.
+    \begin{table}[h]
+      \begin{tabular}{|l|l|l|l|}
+        \hline
+        Test ID & Start State & Events                                  & End State \\ \hline
+        T7      & Ready       & start,win,start                         & Playing   \\ \hline
+        T8      & Ready       & start,win,start,win,start,win,start     & Ended     \\ \hline
+      \end{tabular}
+    \end{table}
+    \begin{table}[h]
+      \begin{tabular}{|l|l|l|l|l|}
+        \hline
+        States     & \multicolumn{4}{|c|}{Event}        \\ \hline
+                   & start   & stop    & win    & lose  \\ \hline
+        Ended      & Playing & Ended   &        &       \\ \hline
+        Ended (3x) & Ended   & Ended   &        &       \\ \hline
+      \end{tabular}
+    \end{table}
     
     \begin{thm}
       Create a new top level MultiLevelLauncher (in the \textit{src} folder of your own solution),
       which is a subclass of the framework’s Launcher.
       For now, its functionality will be exactly the same as the regular launcher.
     \end{thm}
+    Please refer to \textit{nl.tudelft.jpacman.MultiLevelLauncher} for the implementation of the class.
     
+    \newpage
     \begin{thm}
       Create a new MultiLevelGame which extends Game.
       For now, its behavior can be exactly the same as Game.
       Adjust the MultiLevelLauncher so that its makeGame method actually creates a MultiLevelGame,
       and its getGame method returns it.
     \end{thm}
+    Please refer to \textit{nl.tudelft.jpacman.game.MultiLevelGame} for the implementation of the class.
     
     \begin{thm}
       Reengineer your state machine test suite in JUnit, so that it can be applied to both a regular Game/Launcher, and the new MultiLevelLauncher.
     \end{thm}
+    Please refer to \textit{nl.tudelft.jpacman.game.MultiAndSingleGameTest} for the implementation of the JUnit test.
     
     \begin{thm}
       Now that all existing tests pass on the old and the new launcher, add the specific multi-level test cases as designed in Exercise 22.
     \end{thm}
+    Please refer to \textit{nl.tudelft.jpacman.game.MultiGameTest} for the implementation of the JUnit test.
     
     \begin{thm}
       Adjust the implementation to make the multi-level tests pass.
