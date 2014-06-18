@@ -1,22 +1,28 @@
 package nl.tudelft.jpacman.group25.game;
 
-import java.io.IOException;
 import java.util.List;
+
+import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Player;
 
 import com.google.common.collect.ImmutableList;
 
-import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.PacmanConfigurationException;
-import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.level.Level;
-import nl.tudelft.jpacman.level.MapParser;
-import nl.tudelft.jpacman.level.Player;
-
+/**
+ * This class contains a basic implementation of a multi-level game.
+ * You can win a game, and then start a new one, up to three times.
+ * @author gerlof
+ */
 public class MultiLevelGame extends Game {
 	private Level[] levels;
 	private Player player;
 	private int count = 0;
 	
+	/**
+	 * Constructor for the multi-level game.
+	 * @param p	the player
+	 * @param l	the level
+	 */
 	public MultiLevelGame(Player p, Level[] l) {
 		assert p != null;
 		assert l != null;

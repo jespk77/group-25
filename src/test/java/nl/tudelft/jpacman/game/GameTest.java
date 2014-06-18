@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * This class tests all state switches of the Game class
+ * This class tests all state switches of the Game class.
  */
 public class GameTest {
 	private Game simpleGame;
 	@Mock private Player player;
 
 	/**
-	 * This method sets up the Game that we will be testing
+	 * This method sets up the Game that we will be testing.
 	 */
 	@Before
 	public void setUp() {
@@ -26,7 +26,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test the initial state
+	 * Test the initial state.
 	 */
 	@Test
 	public void initial() {
@@ -35,7 +35,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that is ready to start
+	 * Test what happens if you stop a game that is ready to start.
 	 */
 	@Test
 	public void stop() {
@@ -44,7 +44,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that has been started
+	 * Test what happens if you stop a game that has been started.
 	 */
 	@Test
 	public void startStop() {
@@ -54,7 +54,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that has been started
+	 * Test what happens if you start a game that has been started.
 	 */
 	@Test
 	public void startStart() {
@@ -64,7 +64,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game, then win it, and then stop it
+	 * Test what happens if you start a game, then win it, and then stop it.
 	 */
 	@Test
 	public void startWinStop() {
@@ -77,7 +77,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game, then win it, and then start it
+	 * Test what happens if you start a game, then win it, and then start it.
 	 */
 	@Test
 	public void startWinStart() {
@@ -90,7 +90,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game and then lose it
+	 * Test what happens if you start a game and then lose it.
 	 */
 	@Test
 	public void startLose() {
@@ -102,7 +102,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that hasn't been started
+	 * Test what happens if you start a game that hasn't been started.
 	 */
 	@Test
 	public void readyStart() {
@@ -111,7 +111,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that hasn't been started
+	 * Test what happens if you stop a game that hasn't been started.
 	 */
 	@Test
 	public void readyStop() {
@@ -120,7 +120,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that has been started
+	 * Test what happens if you start a game that has been started.
 	 */
 	@Test
 	public void playingStart() {
@@ -130,7 +130,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that has been started
+	 * Test what happens if you stop a game that has been started.
 	 */
 	@Test
 	public void playingStop() {
@@ -140,7 +140,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you win a game
+	 * Test what happens if you win a game.
 	 */
 	@Test
 	public void playingWin() {
@@ -152,7 +152,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you lose a game
+	 * Test what happens if you lose a game.
 	 */
 	@Test
 	public void playingLose() {
@@ -164,7 +164,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that you have lost
+	 * Test what happens if you start a game that you have lost.
 	 */
 	@Test
 	public void endedStart() {
@@ -176,7 +176,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that you have lost
+	 * Test what happens if you stop a game that you have lost.
 	 */
 	@Test
 	public void endedStop() {

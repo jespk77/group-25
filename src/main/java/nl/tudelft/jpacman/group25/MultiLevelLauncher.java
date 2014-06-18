@@ -9,23 +9,32 @@ import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.PlayerFactory;
 
+/**
+ * This is a basic launcher for the multi-level game.
+ * The multi-level game allows up to 3 consecutive games to be played.
+ * @author gerlof
+ */
 public class MultiLevelLauncher extends Launcher {
 	private MultiLevelGame multiGame;
 	private PlayerFactory playerFactory;
-	
-	public static void main(String[] argv) {
+
+	/**
+	 * This method is used to start the launcher as standalone java application.
+	 */
+	public static void main() {
 		(new MultiLevelLauncher()).launch();
 	}
 	
 	@Override
 	public Game makeGame() {
-		Level level[] = new Level[10];
+		Level[] level = new Level[10];
 		for (int i = 0; i < 3; i++) {
 			level[i] = makeLevel();
 		}
 		
 		playerFactory = super.getPlayerFactory();
-		return multiGame = new MultiLevelGame(playerFactory.createPacMan(), level);
+		multiGame = new MultiLevelGame(playerFactory.createPacMan(), level);
+		return multiGame;
 	}
 	
 	@Override

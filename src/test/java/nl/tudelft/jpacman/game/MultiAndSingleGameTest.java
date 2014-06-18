@@ -14,15 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 /**
- * This class tests all state switches of the MultiGame and the SingleGame class using theories
- * Note that these are the same tests as for the Game class
+ * This class tests all state switches of the MultiGame and the SingleGame class using theories.
+ * Note that these are the same tests as for the Game class.
  */
 @RunWith(Theories.class)
 public class MultiAndSingleGameTest {
 	@Mock private Player player;
 
 	/**
-	 * This method sets up the data points for use in this test suite
+	 * This method sets up the data points for use in this test suite.
 	 * @return the games that will be tested
 	 */	
 	@DataPoints
@@ -34,7 +34,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test the initial state
+	 * Test the initial state.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -44,7 +44,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that is ready to start
+	 * Test what happens if you stop a game that is ready to start.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -54,7 +54,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that has been started\
+	 * Test what happens if you stop a game that has been started.
 	 * @param game the game to be tested
 	 */	
 	@Theory
@@ -65,7 +65,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that has been started
+	 * Test what happens if you start a game that has been started.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -76,11 +76,11 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game, then win it, and then stop it
+	 * Test what happens if you start a game, then win it, and then stop it.
 	 * @param game the game to be tested
 	 */
 	@Theory
-	public void startWinStop(Game game) throws InterruptedException {
+	public void startWinStop(Game game) {
 		player = game.getPlayers().get(0);
 		game.start();
 		game.move(player, Direction.EAST);
@@ -90,7 +90,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game and then lose it
+	 * Test what happens if you start a game and then lose it.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -103,7 +103,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that hasn't been started
+	 * Test what happens if you start a game that hasn't been started.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -113,7 +113,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that hasn't been started
+	 * Test what happens if you stop a game that hasn't been started.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -123,7 +123,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that has been started
+	 * Test what happens if you start a game that has been started.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -134,7 +134,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that has been started
+	 * Test what happens if you stop a game that has been started.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -145,7 +145,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you win a game
+	 * Test what happens if you win a game.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -158,7 +158,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you lose a game
+	 * Test what happens if you lose a game.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -171,7 +171,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you start a game that you have lost
+	 * Test what happens if you start a game that you have lost.
 	 * @param game the game to be tested
 	 */
 	@Theory
@@ -184,7 +184,7 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-	 * Test what happens if you stop a game that you have lost
+	 * Test what happens if you stop a game that you have lost.
 	 * @param game the game to be tested
 	 */
 	@Theory

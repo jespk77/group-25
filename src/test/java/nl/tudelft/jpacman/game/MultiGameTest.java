@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * This class tests all extra state switches of the MultiGame class
+ * This class tests all extra state switches of the MultiGame class.
  */
 public class MultiGameTest {
 	private Game simpleMultiGame;
 	@Mock private Player player;
 
 	/**
-	 * This method sets up the MultiLevel Game that we will be testing
+	 * This method sets up the MultiLevel Game that we will be testing.
 	 */
 	@Before
 	public void setUp() {
@@ -26,7 +26,7 @@ public class MultiGameTest {
 	}
 
 	/**
-	 * Test that we can start a game, win it, and start a new game
+	 * Test that we can start a game, win it, and start a new game.
 	 */
 	@Test
 	public void startWinStart() {
@@ -37,5 +37,4 @@ public class MultiGameTest {
 		simpleMultiGame.start();
 		assertTrue(simpleMultiGame.isInProgress());
 	}
-
 }
