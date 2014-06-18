@@ -10,15 +10,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+/**
+ * This class tests all extra state switches of the MultiGame class
+ */
 public class MultiGameTest {
 	private Game simpleMultiGame;
 	@Mock private Player player;
 	
+	/**
+         * This method sets up the MultiLevel Game that we will be testing
+         */
 	@Before
 	public void setUp() {
 		simpleMultiGame = new MultiLevelLauncher().makeGame();
 	}
 
+	/**
+	 * Test that we can start a game, win it, and start a new game
+	 */
 	@Test
 	public void startWinStart() {
 		simpleMultiGame.start();
