@@ -16,7 +16,7 @@ import org.mockito.Mock;
 public class GameTest {
 	private Game simpleGame;
 	@Mock private Player player;
-	
+
 	/**
 	 * This method sets up the Game that we will be testing
 	 */
@@ -24,7 +24,7 @@ public class GameTest {
 	public void setUp() {
 		simpleGame = new SimpleMapWithGhost().makeGame();
 	}
-	
+
 	/**
 	 * Test the initial state
 	 */
@@ -42,7 +42,7 @@ public class GameTest {
 		simpleGame.stop();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that has been started
 	 */
@@ -52,7 +52,7 @@ public class GameTest {
 		simpleGame.stop();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that has been started
 	 */
@@ -62,7 +62,7 @@ public class GameTest {
 		simpleGame.start();
 		assertTrue(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game, then win it, and then stop it
 	 */
@@ -75,7 +75,7 @@ public class GameTest {
 		simpleGame.stop();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game, then win it, and then start it
 	 */
@@ -88,7 +88,7 @@ public class GameTest {
 		simpleGame.start();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game and then lose it
 	 */
@@ -100,7 +100,7 @@ public class GameTest {
 		assertFalse(simpleGame.isInProgress());
 		assertFalse(player.isAlive());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that hasn't been started
 	 */
@@ -109,7 +109,7 @@ public class GameTest {
 		simpleGame.start();
 		assertTrue(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that hasn't been started
 	 */
@@ -118,7 +118,7 @@ public class GameTest {
 		simpleGame.stop();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that has been started
 	 */
@@ -128,7 +128,7 @@ public class GameTest {
 		simpleGame.start();
 		assertTrue(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that has been started
 	 */
@@ -138,7 +138,7 @@ public class GameTest {
 		simpleGame.stop();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you win a game
 	 */
@@ -150,7 +150,7 @@ public class GameTest {
 		assertFalse(simpleGame.isInProgress());
 		assertTrue(player.isAlive());
 	}
-	
+
 	/**
 	 * Test what happens if you lose a game
 	 */
@@ -162,7 +162,7 @@ public class GameTest {
 		assertFalse(simpleGame.isInProgress());
 		assertFalse(player.isAlive());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that you have lost
 	 */
@@ -174,7 +174,7 @@ public class GameTest {
 		simpleGame.start();
 		assertFalse(simpleGame.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that you have lost
 	 */

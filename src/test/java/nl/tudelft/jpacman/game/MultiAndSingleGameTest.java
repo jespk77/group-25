@@ -28,15 +28,15 @@ public class MultiAndSingleGameTest {
 	@DataPoints
 	public static Game[] games() {
 		return new Game[] {
-			new SimpleMapWithGhost().makeGame(),
-			new MultiLevelLauncher().makeGame()
+				new SimpleMapWithGhost().makeGame(),
+				new MultiLevelLauncher().makeGame()
 		};
 	}
-	
+
 	/**
-         * Test the initial state
+	 * Test the initial state
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void initial(Game game) {
 		assertFalse(game.isInProgress());
@@ -44,9 +44,9 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you stop a game that is ready to start
+	 * Test what happens if you stop a game that is ready to start
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void stop(Game game) {
 		game.stop();
@@ -54,9 +54,9 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you stop a game that has been started\
+	 * Test what happens if you stop a game that has been started\
 	 * @param game the game to be tested
-         */	
+	 */	
 	@Theory
 	public void startStop(Game game) {
 		game.start();
@@ -65,20 +65,20 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you start a game that has been started
+	 * Test what happens if you start a game that has been started
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void startStart(Game game) {
 		game.start();
 		game.start();
 		assertTrue(game.isInProgress());
 	}
-	
+
 	/**
-         * Test what happens if you start a game, then win it, and then stop it
+	 * Test what happens if you start a game, then win it, and then stop it
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void startWinStop(Game game) throws InterruptedException {
 		player = game.getPlayers().get(0);
@@ -90,23 +90,9 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you start a game, then win it, and then start it
+	 * Test what happens if you start a game and then lose it
 	 * @param game the game to be tested
-         */	
-	@Theory
-	public void startWinStart(Game game) {
-		player = game.getPlayers().get(0);
-		game.start();
-		game.move(player, Direction.EAST);
-		assertTrue(player.isAlive());
-		game.start();
-		assertFalse(game.isInProgress());
-	}
-	
-	/**
-         * Test what happens if you start a game and then lose it
-	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void startLose(Game game) {
 		player = game.getPlayers().get(0);
@@ -117,9 +103,9 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you start a game that hasn't been started
+	 * Test what happens if you start a game that hasn't been started
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void readyStart(Game game) {
 		game.start();
@@ -127,15 +113,15 @@ public class MultiAndSingleGameTest {
 	}
 
 	/**
-         * Test what happens if you stop a game that hasn't been started
+	 * Test what happens if you stop a game that hasn't been started
 	 * @param game the game to be tested
-         */
+	 */
 	@Theory
 	public void readyStop(Game game) {
 		game.stop();
 		assertFalse(game.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that has been started
 	 * @param game the game to be tested
@@ -146,7 +132,7 @@ public class MultiAndSingleGameTest {
 		game.start();
 		assertTrue(game.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that has been started
 	 * @param game the game to be tested
@@ -157,7 +143,7 @@ public class MultiAndSingleGameTest {
 		game.stop();
 		assertFalse(game.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you win a game
 	 * @param game the game to be tested
@@ -170,7 +156,7 @@ public class MultiAndSingleGameTest {
 		assertFalse(game.isInProgress());
 		assertTrue(player.isAlive());
 	}
-	
+
 	/**
 	 * Test what happens if you lose a game
 	 * @param game the game to be tested
@@ -183,7 +169,7 @@ public class MultiAndSingleGameTest {
 		assertFalse(game.isInProgress());
 		assertFalse(player.isAlive());
 	}
-	
+
 	/**
 	 * Test what happens if you start a game that you have lost
 	 * @param game the game to be tested
@@ -196,7 +182,7 @@ public class MultiAndSingleGameTest {
 		game.start();
 		assertFalse(game.isInProgress());
 	}
-	
+
 	/**
 	 * Test what happens if you stop a game that you have lost
 	 * @param game the game to be tested

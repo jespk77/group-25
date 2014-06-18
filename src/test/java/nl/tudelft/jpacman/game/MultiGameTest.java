@@ -16,10 +16,10 @@ import org.mockito.Mock;
 public class MultiGameTest {
 	private Game simpleMultiGame;
 	@Mock private Player player;
-	
+
 	/**
-         * This method sets up the MultiLevel Game that we will be testing
-         */
+	 * This method sets up the MultiLevel Game that we will be testing
+	 */
 	@Before
 	public void setUp() {
 		simpleMultiGame = new MultiLevelLauncher().makeGame();
@@ -30,6 +30,7 @@ public class MultiGameTest {
 	 */
 	@Test
 	public void startWinStart() {
+		player = simpleMultiGame.getPlayers().get(0);
 		simpleMultiGame.start();
 		simpleMultiGame.move(player, Direction.EAST);
 		assertFalse(simpleMultiGame.isInProgress());
